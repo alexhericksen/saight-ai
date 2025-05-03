@@ -2,7 +2,7 @@ let activeTabId = null;
 let activeStartTime = null;
 let activeDomain = null;
 
-const trackedDomains = ["chatgpt.com", "claude.ai", "cursor.sh"];
+const trackedDomains = ["chatgpt.com", "claude.ai", "cursor.com", "grok.com"];
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   if (activeTabId !== null && activeDomain) {
@@ -11,11 +11,21 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
     saveSession(activeDomain, duration);
   }
 
-  const tab = await chrome.tabs.get(activeInfo.tabId);
-  const url = new URL(tab.url);
-  activeDomain = trackedDomains.includes(url.hostname) ? url.hostname : null;
-  activeStartTime = Date.now();
-  activeTabId = activeInfo.tabId;
+  try {
+    const tab = await chrome.tabs.get(activeInfo.tabId);
+    if (!tab.url || !tab.url.startsWith("http")) {
+      // Skip tabs without valid URLs (e.g. new tab, Chrome internal pages)
+      activeDomain = null;
+      return;
+    }
+
+    const url = new URL(tab.url);
+    activeDomain = trackedDomains.includes(url.hostname) ? url.hostname : null;
+    activeStartTime = Date.now();
+    activeTabId = activeInfo.tabId;
+  } catch (error) {
+    console.error("Failed to get tab info:", error);
+  }
 });
 
 function saveSession(domain, duration) {
@@ -31,3 +41,4 @@ function saveSession(domain, duration) {
     chrome.storage.local.set({ sessions });
   });
 }
+
