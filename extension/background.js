@@ -2,7 +2,7 @@ let activeTabId = null;
 let activeStartTime = null;
 let activeDomain = null;
 
-const trackedDomains = ["chat.openai.com", "claude.ai", "cursor.sh"];
+const trackedDomains = ["chatgpt.com", "claude.ai", "cursor.sh"];
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
   if (activeTabId !== null && activeDomain) {
