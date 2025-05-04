@@ -47,19 +47,31 @@ export default function Home() {
   };
 
   const testSession = async () => {
-    const res = await fetch("/api/sessions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        tool: "claude.ai",
-        duration: 99,
-        tag: "test button"
-      }),
-    });
+    try {
+      const res = await fetch("/api/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tool: "claude.ai",
+          duration: 99,
+          tag: "test button"
+        }),
+      });
   
-    const data = await res.json();
-    alert(data.message || "No response");
-  };  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        console.error("Server responded with error:", data);
+        alert(`Error: ${data.error || "Unknown error"}`);
+      } else {
+        console.log("Success:", data);
+        alert("✅ Session saved!");
+      }
+    } catch (err) {
+      console.error("Fetch failed:", err);
+      alert("🚫 Network or server error");
+    }
+  };    
 
   return (
     <main className="p-8 font-sans">
