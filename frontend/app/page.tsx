@@ -46,6 +46,21 @@ export default function Home() {
     link.click();
   };
 
+  const testSession = async () => {
+    const res = await fetch("/api/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        tool: "claude.ai",
+        duration: 99,
+        tag: "test button"
+      }),
+    });
+  
+    const data = await res.json();
+    alert(data.message || "No response");
+  };  
+
   return (
     <main className="p-8 font-sans">
       <h1 className="text-2xl font-bold mb-4">Saight-AI Dashboard</h1>
@@ -55,6 +70,12 @@ export default function Home() {
       >
         Download CSV
       </button>
+      <button
+  onClick={testSession}
+  className="mb-4 ml-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+>
+  Test Supabase POST
+</button>
       <table className="w-full border">
         <thead>
           <tr className="bg-gray-100 text-left">
