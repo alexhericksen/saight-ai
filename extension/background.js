@@ -43,7 +43,7 @@ function saveSession(domain, duration) {
     });
   
     // POST to Supabase
-    fetch("https://saight-ai.vercel.app/api/sessions", {
+    fetch("https://saight-ai-live.vercel.app/api/track-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
