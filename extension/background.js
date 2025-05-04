@@ -29,16 +29,40 @@ chrome.tabs.onActivated.addListener(async (activeInfo) => {
 });
 
 function saveSession(domain, duration) {
-  const entry = {
-    tool: domain,
-    timestamp: new Date().toISOString(),
-    duration: Math.round(duration)
-  };
-
-  chrome.storage.local.get(["sessions"], function (result) {
-    const sessions = result.sessions || [];
-    sessions.push(entry);
-    chrome.storage.local.set({ sessions });
-  });
-}
+    const session = {
+      tool: domain,
+      duration: Math.round(duration),
+      tag: null, // or fetch from popup if available
+      timestamp: new Date().toISOString()
+    };
+  
+    // Save to local storage
+    chrome.storage.local.get(["sessionLogs"], (result) => {
+      const updatedLogs = [...(result.sessionLogs || []), session];
+      chrome.storage.local.set({ sessionLogs: updatedLogs });
+    });
+  
+    // POST to Supabase
+    fetch("https://saight-ai.vercel.app/api/sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        tool: session.tool,
+        duration: session.duration,
+        tag: session.tag
+      })
+    })
+    .then(res => {
+      if (!res.ok) {
+        console.error("❌ Failed to sync session to Supabase");
+      } else {
+        console.log("✅ Session sent to Supabase");
+      }
+    })
+    .catch(err => {
+      console.error("🚫 Network error while sending session:", err);
+    });
+  }  
 
