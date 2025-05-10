@@ -1,9 +1,46 @@
+<!-- popup.html -->
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Saight-AI Tracker</title>
-  </head>
-  <body>
-    <h1>Popup Loaded</h1>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tag AI Session</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 16px;
+      width: 300px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    select, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tag This Session</h2>
+
+  <label for="category">General Use:</label>
+  <select id="category">
+    <option value="">--Select--</option>
+    <option value="work">Work</option>
+    <option value="school">School</option>
+    <option value="personal">Personal</option>
+    <option value="hobby">Hobby</option>
+  </select>
+
+  <label for="detail">Specific Use:</label>
+  <select id="detail">
+    <option value="">--Select--</option>
+  </select>
+
+  <button id="save">Save Tag</button>
+  <script src="popup.js"></script>
+</body>
 </html>
