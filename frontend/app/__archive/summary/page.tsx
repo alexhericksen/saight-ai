@@ -1,20 +1,27 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/utils/supabase"; // adjust if your path differs
+import { supabase } from "../../../lib/supabase"; // adjust if your path differs
 
 type Session = {
   id: string;
-  domain: string;
+  tool: string;
   timestamp: string;
-  duration_seconds: number;
+  duration: number;
 };
 
 const aiToolLogos: Record<string, string> = {
-  "chat.openai.com": "/logos/chatgpt.png",
+  "chatgpt.com": "/logos/chatgpt.png",
   "claude.ai": "/logos/claude.png",
-  "grok.x.ai": "/logos/grok.png",
+  "grok.com": "/logos/grok.png",
   "cursor.com": "/logos/cursor.png",
+  "replit.com": "/logos/replit.png",
+  "superhuman.com": "/logos/superhuman.png",
+  "lovable.dev": "/logos/lovable.png",
+  "perplexity.ai": "/logos/perplexity.png",
+  "linear.app": "/logos/linear.png",
+  "bolt.new": "/logos/bolt.png",
+  "notion.com": "/logos/notion.png"
 };
 
 function formatDuration(seconds: number): string {
@@ -48,7 +55,7 @@ export default function DashboardSummary() {
   }, []);
 
   const sessionsByTool = sessions.reduce((acc: Record<string, number>, session) => {
-    acc[session.domain] = (acc[session.domain] || 0) + session.duration_seconds;
+    acc[session.tool] = (acc[session.tool] || 0) + session.duration;
     return acc;
   }, {});
 
@@ -69,19 +76,19 @@ export default function DashboardSummary() {
 
       {/* Tool summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Object.entries(sessionsByTool).map(([domain, totalSeconds]) => (
+        {Object.entries(sessionsByTool).map(([tool, totalSeconds]) => (
           <div
-            key={domain}
+            key={tool}
             className="bg-white shadow-md rounded-2xl p-5 flex items-center justify-between"
           >
             <div className="flex items-center space-x-4">
               <img
-                src={aiToolLogos[domain] || "/logos/default-ai.png"}
-                alt={domain}
+                src={aiToolLogos[tool] || "/logos/default-ai.png"}
+                alt={tool}
                 className="w-10 h-10"
               />
               <div>
-                <p className="text-lg font-medium">{domain}</p>
+                <p className="text-lg font-medium">{tool}</p>
                 <p className="text-gray-500">{formatDuration(totalSeconds)}</p>
               </div>
             </div>

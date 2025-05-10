@@ -1,24 +1,21 @@
 {
-    "manifest_version": 3,
-    "name": "Saight-AI Tracker",
-    "version": "0.1",
-    "description": "Track your exposure to AI tools like ChatGPT, Claude, and Cursor.",
-    "permissions": [
-      "tabs",
-      "storage",
-      "activeTab"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "icon.png"
-      }
-    },
-    "icons": {
+  "manifest_version": 3,
+  "name": "Saight-AI Tracker",
+  "version": "0.1",
+  "description": "Track your exposure to AI tools like ChatGPT, Claude, and Cursor.",
+  "permissions": ["tabs", "storage", "activeTab"],
+  "host_permissions": ["https://saight-ai-live.vercel.app/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
       "16": "icon.png"
     }
+  },
+  "icons": {
+    "16": "icon.png"
   }
+}
   
