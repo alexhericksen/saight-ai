@@ -1,16 +1,69 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase"; // adjust path if needed
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
+  const [timeToday, setTimeToday] = useState<string>("—");
+  const [topTool, setTopTool] = useState<string>("—");
+  const [topTag, setTopTag] = useState<string>("—");
+
+useEffect(() => {
+  const fetchTodayDuration = async () => {
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const { data, error } = await supabase
+      .from("sessions")
+      .select("duration")
+      .gte("timestamp", startOfDay.toISOString());
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return;
+    }
+
+    const totalSeconds = data.reduce((sum: number, row: any) => sum + row.duration, 0);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+
+    setTimeToday(`${hours}h ${minutes}m`);
+    // Calculate top tool
+const toolCounts = new Map<string, number>();
+data.forEach((row: any) => {
+  const tool = row.tool;
+  toolCounts.set(tool, (toolCounts.get(tool) || 0) + row.duration);
+});
+
+const sortedTools = [...toolCounts.entries()].sort((a, b) => b[1] - a[1]);
+if (sortedTools.length > 0) {
+  setTopTool(sortedTools[0][0]);
+  // Calculate top tag
+const tagCounts = new Map<string, number>();
+data.forEach((row: any) => {
+  const tag = row.tag;
+  if (tag) {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + row.duration);
+  }
+});
+
+const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+if (sortedTags.length > 0) {
+  setTopTag(sortedTags[0][0]);
+}
+}
+  };
+
+  fetchTodayDuration();
+}, []);
 
   return (
     <div className="flex min-h-screen bg-white text-black">
       {/* Sidebar */}
       <aside className="w-64 bg-black text-white p-4 flex flex-col justify-between">
         <div>
-          <img src="/saight.ai logo (1).png" alt="Saight Logo" className="h-10 mb-8" />
+        <img src="/logo.png" alt="Saight logo" className="h-8 w-auto mb-6" />
           <nav className="space-y-4">
             <a href="#" className="block text-white hover:text-blue-500">Dashboard</a>
             <a href="#" className="block text-white hover:text-blue-500">Leaderboard</a>
@@ -24,9 +77,9 @@ export default function Dashboard() {
       <main className="flex-1 p-6 space-y-6">
         {/* Top stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <StatCard label="Time Tracked Today" value="2h 14m" />
-          <StatCard label="Top Tool Today" value="ChatGPT" />
-          <StatCard label="Top Tag Today" value="Software Engineering" />
+        <StatCard label="Time Tracked Today" value={timeToday} />
+        <StatCard label="Top Tool Today" value={topTool} />
+        <StatCard label="Top Tag Today" value={topTag} />
         </div>
 
         {/* Chart + Activity */}
