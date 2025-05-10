@@ -5,58 +5,51 @@ import { supabase } from "@/lib/supabase"; // adjust path if needed
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
-  const [timeToday, setTimeToday] = useState<string>("—");
-  const [topTool, setTopTool] = useState<string>("—");
-  const [topTag, setTopTag] = useState<string>("—");
+  const [topToolsToday, setTopToolsToday] = useState<{ tool: string; duration: string }[]>([]);
+  const [timeToday, setTimeToday] = useState("0m");
 
-useEffect(() => {
-  const fetchTodayDuration = async () => {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const { data, error } = await supabase
-      .from("sessions")
-      .select("duration")
-      .gte("timestamp", startOfDay.toISOString());
-
-    if (error) {
-      console.error("Supabase error:", error);
-      return;
-    }
-
-    const totalSeconds = data.reduce((sum: number, row: any) => sum + row.duration, 0);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-
-    setTimeToday(`${hours}h ${minutes}m`);
-    // Calculate top tool
-const toolCounts = new Map<string, number>();
-data.forEach((row: any) => {
-  const tool = row.tool;
-  toolCounts.set(tool, (toolCounts.get(tool) || 0) + row.duration);
-});
-
-const sortedTools = [...toolCounts.entries()].sort((a, b) => b[1] - a[1]);
-if (sortedTools.length > 0) {
-  setTopTool(sortedTools[0][0]);
-  // Calculate top tag
-const tagCounts = new Map<string, number>();
-data.forEach((row: any) => {
-  const tag = row.tag;
-  if (tag) {
-    tagCounts.set(tag, (tagCounts.get(tag) || 0) + row.duration);
-  }
-});
-
-const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
-if (sortedTags.length > 0) {
-  setTopTag(sortedTags[0][0]);
-}
-}
-  };
-
-  fetchTodayDuration();
-}, []);
+  useEffect(() => {
+    const fetchTodayStats = async () => {
+      const { data, error } = await supabase
+        .from("sessions")
+        .select("*")
+        .gte("timestamp", new Date().toISOString().split("T")[0]);
+  
+      if (error || !data) {
+        console.error("Error fetching today's data:", error);
+        return;
+      }
+  
+      // Total time today
+      const total = data.reduce((sum, s) => sum + s.duration, 0);
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      setTimeToday(`${h > 0 ? `${h}h ` : ""}${m}m`);
+  
+      // Top tools
+      const toolMap: { [key: string]: number } = {};
+      for (const s of data) {
+        const tool = s.tool as string;
+        toolMap[tool] = (toolMap[tool] || 0) + s.duration;
+      }
+  
+      const sorted = Object.entries(toolMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([tool, duration]) => {
+          const hrs = Math.floor(duration / 3600);
+          const mins = Math.floor((duration % 3600) / 60);
+          return {
+            tool,
+            duration: `${hrs > 0 ? `${hrs}h ` : ""}${mins}m`,
+          };
+        });
+  
+      setTopToolsToday(sorted);
+    };
+  
+    fetchTodayStats();
+  }, []);  
 
   return (
     <div className="flex min-h-screen bg-white text-black">
@@ -78,8 +71,8 @@ if (sortedTags.length > 0) {
         {/* Top stats */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <StatCard label="Time Tracked Today" value={timeToday} />
-        <StatCard label="Top Tool Today" value={topTool} />
-        <StatCard label="Top Tag Today" value={topTag} />
+        <StatCard label="Top Tools Today" tools={topToolsToday} />
+        {/*<StatCard label="Top Tag Today" value={topTag} />*/}
         </div>
 
         {/* Chart + Activity */}
@@ -125,15 +118,31 @@ if (sortedTags.length > 0) {
 }
 
 type StatCardProps = {
-    label: string;
-    value: string;
-  };
-  
-  function StatCard({ label, value }: StatCardProps) {
-    return (
-      <div className="bg-gray-50 p-4 rounded-xl shadow text-center">
-        <p className="text-sm text-gray-500">{label}</p>
-        <p className="text-xl font-semibold text-[#021BF9]">{value}</p>
-      </div>
-    );
-  }
+  label: string;
+  value?: string;
+  tools?: { tool: string; duration: string }[];
+};
+
+function StatCard({ label, value, tools }: StatCardProps) {
+  return (
+    <div className="bg-gray-50 p-4 rounded-xl shadow text-center">
+      <p className="text-sm text-gray-500 mb-2">{label}</p>
+      {value && <p className="text-xl font-semibold text-[#021BF9]">{value}</p>}
+      {tools && tools.length > 0 && (
+        <div className="space-y-1 mt-2">
+          {tools.map((t) => (
+            <div key={t.tool} className="flex items-center justify-center space-x-2">
+              <img
+                src={`/logos/${t.tool}.png`}
+                alt={t.tool}
+                className="h-5 w-5 rounded-sm"
+              />
+              <span className="text-sm">{t.tool.replace(".com", "")}</span>
+              <span className="text-xs text-gray-500">{t.duration}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
