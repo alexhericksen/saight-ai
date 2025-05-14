@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { Button } from "@/components/ui/button";
+import { Pencil } from "lucide-react";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -73,28 +75,53 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-white text-black">
-      <aside className="w-64 bg-black text-white p-4 flex flex-col justify-between">
+    <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white text-black border-r p-6 flex flex-col justify-between">
         <div>
           <img src="/logo.png" alt="Saight logo" className="h-8 w-auto mb-6" />
           <nav className="space-y-4">
-            <a href="#" className="block text-white hover:text-blue-500">Dashboard</a>
-            <a href="#" className="block text-white hover:text-blue-500">Explore</a>
-            <a href="#" className="block text-white hover:text-blue-500">My Profile</a>
+            <a href="#" className="block font-medium text-[#021BF9]">Dashboard</a>
+            <a href="#" className="block hover:text-[#021BF9]">My Profile</a>
+            <a href="#" className="block hover:text-[#021BF9]">Explore</a>
           </nav>
         </div>
-        <a href="#" className="text-sm text-gray-400 hover:text-white">Settings</a>
+        <div>
+          <a href="#" className="text-sm text-gray-500 hover:text-black">Settings</a>
+        </div>
       </aside>
 
-      <main className="flex-1 p-6 space-y-6">
+      <main className="flex-1 p-6 bg-gray-100 text-black">
+        {/* Profile Header Section */}
+        <div className="flex justify-between items-center border-b pb-6 mb-6">
+          <div className="flex items-center space-x-6">
+            <img src="/profile.png" className="h-20 w-20 rounded-full border" alt="Profile" />
+            <div>
+              <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
+              <p>Total Time Tracked: {timeToday}</p>
+              <p>User since: Jan 2024</p>
+              <p>Profile Views: 198</p>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-sm">Industry: Marketing <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 8%)</span></p>
+            <p className="text-sm">Profession: Growth Strategist <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 12%)</span></p>
+          </div>
+          <div className="text-right">
+            <Button variant="default" className="px-4 py-2">Share</Button>
+          </div>
+        </div>
+
+        {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <StatCard label="Time Tracked Today" value={timeToday} />
           <StatCard label="Top Tools Today" tools={topToolsToday} />
           <StatCard label="Top Tags Today" tags={topTagsToday} />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-gray-50 p-4 rounded-xl shadow">
+        {/* Chart and Activity Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+          <div className="lg:col-span-2 bg-white p-4 rounded-xl shadow">
             <div className="flex justify-between mb-4">
               <h2 className="text-lg font-semibold">Last 7 Days</h2>
               <div className="space-x-2">
@@ -103,25 +130,25 @@ export default function Dashboard() {
                 <button onClick={() => setChartView('tags')} className={chartView === 'tags' ? 'text-[#021BF9]' : 'text-gray-500'}>Tags</button>
               </div>
             </div>
-            <div className="h-64 bg-white border rounded flex items-center justify-center text-gray-400">
+            <div className="h-64 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
               {chartView === 'daily' ? 'Bar Chart: Time Per Day' : chartView === 'tools' ? 'Bar Chart: Top Tools' : 'Bar Chart: Top Tags'}
             </div>
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-xl shadow space-y-4">
+          <div className="bg-white p-4 rounded-xl shadow space-y-4">
             <h2 className="text-lg font-semibold">My Activity</h2>
             <div>🔥 Streak: 7 days</div>
             <div>
               <p>📈 Current Milestone: 10 tools used</p>
               <p>🎯 Next: 15 tools (5 to go)</p>
             </div>
-            <div className="h-24 bg-white border rounded flex items-center justify-center text-gray-400">
+            <div className="h-24 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
               GitHub-style heatmap (placeholder)
             </div>
           </div>
         </div>
 
-        <div className="bg-[#021BF9] text-white p-6 rounded-xl shadow flex items-center justify-between">
+        <div className="bg-[#021BF9] text-white p-6 rounded-xl shadow flex items-center justify-between mt-6">
           <button>{'<'}</button>
           <p className="text-lg font-medium">Search My History</p>
           <button>{'>'}</button>
@@ -140,7 +167,7 @@ type StatCardProps = {
 
 function StatCard({ label, value, tools, tags }: StatCardProps) {
   return (
-    <div className="bg-gray-50 p-4 rounded-xl shadow text-center">
+    <div className="bg-white p-4 rounded-xl shadow">
       <p className="text-sm text-gray-500 mb-2">{label}</p>
       {value && <p className="text-xl font-semibold text-[#021BF9]">{value}</p>}
       {tools && tools.length > 0 && (
