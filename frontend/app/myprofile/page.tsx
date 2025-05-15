@@ -53,8 +53,8 @@ export default function MyProfile() {
 
       <main className="flex-1 p-6 bg-gray-100 text-black">
         {/* Header Section */}
-        <div className="flex justify-between items-center border-b pb-6 mb-6">
-          <div className="flex items-center space-x-6 w-1/3">
+        <div className="flex justify-center items-center border-b pb-6 mb-6">
+          <div className="flex items-center space-x-6 w-1/3 min-w-[320px]">
             <div className="relative">
               <img src="/profile.png" className="h-32 w-32 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
               <div className="absolute inset-0 rounded-full border-2 border-gray-200/50 transform -rotate-1"></div>
@@ -66,10 +66,54 @@ export default function MyProfile() {
               <Button variant="default" size="sm" className="mt-2 w-fit px-3 py-1.5">Share</Button>
             </div>
           </div>
-          <div className="text-center">
-            <p className="text-sm">Industry: Marketing <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 8%)</span></p>
-            <p className="text-sm">Profession: Growth Strategist <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 12%)</span></p>
-            <p className="text-sm">Company: Saight.ai <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 3%)</span></p>
+          <div className="w-2/3 flex justify-start">
+            <div className="bg-white rounded-xl shadow p-4 w-full max-w-2xl text-sm">
+              <div className="text-center text-xs font-medium m-0 p-0 leading-tight">⚾️ Baseball Card ⚾️</div>
+              <div className="grid grid-cols-2 gap-2">
+                {/* Triple Crown */}
+                <div>
+                  <div className="text-center text-sm font-bold mb-0.5">👑 Triple Crown 👑</div>
+                  <div className="space-y-0.5">
+                    <div className="flex justify-between items-center text-xs">
+                      <span>⏰ All-time usage</span>
+                      <span className="font-semibold">41h 36m</span>
+                      <span className="text-[10px] text-gray-500">#1 overall</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span>🛠️ Avg Daily Tools Used</span>
+                      <span className="font-semibold">6 tools</span>
+                      <span className="text-[10px] text-gray-500">#1 overall</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span>📈 Expertise</span>
+                      <span className="font-semibold">6 contributions</span>
+                      <span className="text-[10px] text-gray-500">#1 overall</span>
+                    </div>
+                  </div>
+                </div>
+                {/* Industry */}
+                <div>
+                  <div className="text-center text-sm font-bold mb-0.5">🏢 Industry 🏢</div>
+                  <div className="space-y-0.5">
+                    <div className="flex justify-between items-center text-xs">
+                      <span>🎓 Discipline</span>
+                      <span className="font-semibold">AI tech</span>
+                      <span className="text-[10px] text-gray-500">#1 overall</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span>💻 Profession</span>
+                      <span className="font-semibold">Product Management</span>
+                      <span className="text-[10px] text-gray-500">#1 overall</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span>💰 Company</span>
+                      <span className="font-semibold">Saight.ai</span>
+                      <span className="text-[10px] text-gray-500">#1 overall</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
