@@ -50,7 +50,10 @@ export default function ExplorePage() {
         {/* Profile Header */}
         <div className="flex justify-between items-center border-b pb-6 mb-6">
           <div className="flex items-center space-x-6">
-            <img src="/profile.png" className="h-20 w-20 rounded-full border" alt="Profile" />
+            <div className="relative">
+              <img src="/profile.png" className="h-20 w-20 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
+              <div className="absolute inset-0 rounded-full border-2 border-gray-200/50 transform -rotate-1"></div>
+            </div>
             <div>
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
               <p>Total Time Tracked: 87h 42m</p>
