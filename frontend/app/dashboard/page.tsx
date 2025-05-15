@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
-import { Pencil, Home, User, Globe, Settings, Gift } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell } from "lucide-react";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -120,7 +120,8 @@ export default function Dashboard() {
 
       <main className="flex-1 p-6 bg-gray-100 text-black">
         {/* Profile Header Section */}
-        <div className="flex justify-center items-center border-b pb-6 mb-6">
+        <div className="relative flex items-start border-b pb-6 mb-6">
+          {/* Left: Profile Info */}
           <div className="flex items-center space-x-6 w-1/3 min-w-[320px]">
             <div className="relative">
               <img src="/profile.png" className="h-32 w-32 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
@@ -130,9 +131,10 @@ export default function Dashboard() {
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
               <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
               <p className="text-xs text-gray-700">🎂 joined May 2025</p>
-              <Button variant="default" size="sm" className="mt-2 w-fit px-3 py-1.5">Share</Button>
+              <Button variant="default" size="sm" className="mt-2 w-fit px-7 py-0.5">Share</Button>
             </div>
           </div>
+          {/* Center: Baseball Card */}
           <div className="w-2/3 flex justify-start">
             <div className="bg-white rounded-xl shadow p-4 w-full max-w-2xl text-sm">
               <div className="text-center text-xs font-medium m-0 p-0 leading-tight">⚾️ Baseball Card ⚾️</div>
@@ -180,6 +182,12 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          {/* Right: Notifications Icon - absolutely positioned */}
+          <div className="absolute right-0 top-0 flex items-start justify-end w-24" style={{ top: 0 }}>
+            <div className="bg-white rounded-full shadow p-2 flex items-center justify-center">
+              <Bell className="h-5 w-5 text-gray-700" />
             </div>
           </div>
         </div>

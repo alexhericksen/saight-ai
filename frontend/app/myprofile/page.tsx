@@ -20,25 +20,28 @@ export default function MyProfile() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-52 bg-white text-black border-r p-6 flex flex-col justify-between">
-        <div className="space-y-4 flex items-center flex-col pt-8">
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <Home className="h-5 w-5" />
-            </div>
-            <span>Dashboard</span>
-          </a>
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <User className="h-5 w-5" />
-            </div>
-            <span className="font-medium">My Profile</span>
-          </a>
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <Globe className="h-5 w-5" />
-            </div>
-            <span>Explore</span>
-          </a>
+        <div>
+          {/* Main Menu Items */}
+          <div className="space-y-4 flex items-center flex-col pt-8">
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <Home className="h-5 w-5" />
+              </div>
+              <span>Dashboard</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <User className="h-5 w-5" />
+              </div>
+              <span className="font-medium">My Profile</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <Globe className="h-5 w-5" />
+              </div>
+              <span>Explore</span>
+            </a>
+          </div>
         </div>
         <div className="space-y-4 flex items-center flex-col">
           <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
@@ -62,7 +65,8 @@ export default function MyProfile() {
 
       <main className="flex-1 p-6 bg-gray-100 text-black">
         {/* Header Section */}
-        <div className="flex justify-center items-center border-b pb-6 mb-6">
+        <div className="relative flex items-start border-b pb-6 mb-6">
+          {/* Left: Profile Info */}
           <div className="flex items-center space-x-6 w-1/3 min-w-[320px]">
             <div className="relative">
               <img src="/profile.png" className="h-32 w-32 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
@@ -72,9 +76,10 @@ export default function MyProfile() {
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
               <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
               <p className="text-xs text-gray-700">🎂 joined May 2025</p>
-              <Button variant="default" size="sm" className="mt-2 w-fit px-3 py-1.5">Share</Button>
+              <Button variant="default" size="sm" className="mt-2 w-fit px-7 py-0.5">Share</Button>
             </div>
           </div>
+          {/* Center: Baseball Card */}
           <div className="w-2/3 flex justify-start">
             <div className="bg-white rounded-xl shadow p-4 w-full max-w-2xl text-sm">
               <div className="text-center text-xs font-medium m-0 p-0 leading-tight">⚾️ Baseball Card ⚾️</div>
