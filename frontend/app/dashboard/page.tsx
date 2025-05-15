@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings } from "lucide-react";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -78,16 +78,37 @@ export default function Dashboard() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 bg-white text-black border-r p-6 flex flex-col justify-between">
-        <div>
-          <img src="/logo.png" alt="Saight logo" className="h-8 w-auto mb-6" />
-          <nav className="space-y-4">
-            <a href="#" className="block font-medium text-black">Dashboard</a>
-            <a href="#" className="block hover:text-black">My Profile</a>
-            <a href="#" className="block hover:text-black">Explore</a>
-          </nav>
+        <div className="space-y-4 flex items-center flex-col">
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Home className="h-5 w-5" />
+            </div>
+            <span className="font-medium">Dashboard</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <User className="h-5 w-5" />
+            </div>
+            <span>My Profile</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Globe className="h-5 w-5" />
+            </div>
+            <span>Explore</span>
+          </a>
         </div>
-        <div>
-          <a href="#" className="text-sm text-gray-500 hover:text-black">Settings</a>
+        <div className="space-y-6 flex items-center flex-col">
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Settings className="h-5 w-5" />
+            </div>
+            <span>Settings</span>
+          </a>
+          <div className="text-center">
+            <p className="text-xs text-gray-500 mb-2">ai usage provided by</p>
+            <img src="/logo.png" alt="Saight logo" className="h-7 w-auto mx-auto" />
+          </div>
         </div>
       </aside>
 
@@ -131,7 +152,7 @@ export default function Dashboard() {
                 <button onClick={() => setChartView('tags')} className={chartView === 'tags' ? 'text-black font-medium' : 'text-gray-500'}>Tags</button>
               </div>
             </div>
-            <div className="h-64 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
+            <div className="h-48 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
               {chartView === 'daily' ? 'Bar Chart: Time Per Day' : chartView === 'tools' ? 'Bar Chart: Top Tools' : 'Bar Chart: Top Tags'}
             </div>
           </div>
@@ -143,16 +164,10 @@ export default function Dashboard() {
               <p>📈 Current Milestone: 10 tools used</p>
               <p>🎯 Next: 15 tools (5 to go)</p>
             </div>
-            <div className="h-24 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
+            <div className="h-16 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
               GitHub-style heatmap (placeholder)
             </div>
           </div>
-        </div>
-
-        <div className="bg-black text-white p-6 rounded-xl shadow flex items-center justify-between mt-6">
-          <button>{'<'}</button>
-          <p className="text-lg font-medium">Search My History</p>
-          <button>{'>'}</button>
         </div>
       </main>
     </div>

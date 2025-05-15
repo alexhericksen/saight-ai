@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Pencil } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings } from "lucide-react";
 
 export default function ExplorePage() {
   const [activeTab, setActiveTab] = useState("feed");
@@ -12,16 +12,37 @@ export default function ExplorePage() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 bg-white text-black border-r p-6 flex flex-col justify-between">
-        <div>
-          <img src="/logo.png" alt="Saight logo" className="h-8 w-auto mb-6" />
-          <nav className="space-y-4">
-            <a href="#" className="block hover:text-[#021BF9]">Dashboard</a>
-            <a href="#" className="block hover:text-[#021BF9]">My Profile</a>
-            <a href="#" className="block font-medium text-[#021BF9]">Explore</a>
-          </nav>
+        <div className="space-y-4 flex items-center flex-col">
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Home className="h-5 w-5" />
+            </div>
+            <span>Dashboard</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <User className="h-5 w-5" />
+            </div>
+            <span>My Profile</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Globe className="h-5 w-5" />
+            </div>
+            <span className="font-medium">Explore</span>
+          </a>
         </div>
-        <div>
-          <a href="#" className="text-sm text-gray-500 hover:text-black">Settings</a>
+        <div className="space-y-6 flex items-center flex-col">
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Settings className="h-5 w-5" />
+            </div>
+            <span>Settings</span>
+          </a>
+          <div className="text-center">
+            <p className="text-xs text-gray-500 mb-2">ai usage provided by</p>
+            <img src="/logo.png" alt="Saight logo" className="h-7 w-auto mx-auto" />
+          </div>
         </div>
       </aside>
 
