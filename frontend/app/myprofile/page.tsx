@@ -88,13 +88,13 @@ export default function MyProfile() {
             <div className="space-y-8">
               {/* Snapshot Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white p-4 rounded-xl shadow">Top Tools (chart placeholder)</div>
-                <div className="bg-white p-4 rounded-xl shadow">Top Uses (chart placeholder)</div>
+                <div className="bg-white p-4 rounded-xl shadow">🛠️ Top Tools (chart placeholder)</div>
+                <div className="bg-white p-4 rounded-xl shadow">🏷️ Top Uses (chart placeholder)</div>
               </div>
 
               {/* AI Portfolio Section */}
               <div className="bg-white p-6 rounded-xl shadow">
-                <h2 className="text-xl font-semibold mb-2">AI Portfolio</h2>
+                <h2 className="text-xl font-semibold mb-2">💼 AI Portfolio</h2>
                 <p className="text-sm text-gray-500 mb-4">Upload links, files, and media showcasing your AI work.</p>
                 <div className="flex flex-wrap gap-2">
                   <Button variant="outline">Upload</Button>
@@ -105,7 +105,7 @@ export default function MyProfile() {
 
               {/* Scorecard Section */}
               <div className="bg-white p-6 rounded-xl shadow">
-                <h2 className="text-xl font-semibold mb-2">Scorecard (Private/Public Toggle)</h2>
+                <h2 className="text-xl font-semibold mb-2">💯 Scorecard (Private/Public Toggle)</h2>
                 <ul className="list-disc ml-6 text-sm space-y-1">
                   <li>Global Rank: Top 12%</li>
                   <li>Top Uses: Writing, Research</li>
@@ -128,7 +128,7 @@ export default function MyProfile() {
 
               {/* History Table Placeholder */}
               <div className="bg-white p-6 rounded-xl shadow">
-                <h2 className="text-lg font-semibold mb-4">Your Session History</h2>
+                <h2 className="text-lg font-semibold mb-4">⏰ My Usage History</h2>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-gray-500">

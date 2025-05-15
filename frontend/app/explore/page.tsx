@@ -93,6 +93,8 @@ export default function ExplorePage() {
               <div className="flex space-x-4 mt-2 text-sm text-gray-600">
                 <span>🎉 18 Cheers</span>
                 <span>💬 3 Comments</span>
+                <button className="hover:text-gray-800">✈️ Send</button>
+                <button className="hover:text-gray-800">🔖 Save</button>
               </div>
             </div>
             <div className="bg-white p-4 rounded-xl shadow">
@@ -101,6 +103,8 @@ export default function ExplorePage() {
               <div className="flex space-x-4 mt-2 text-sm text-gray-600">
                 <span>🎉 26 Cheers</span>
                 <span>💬 5 Comments</span>
+                <button className="hover:text-gray-800">✈️ Send</button>
+                <button className="hover:text-gray-800">🔖 Save</button>
               </div>
             </div>
           </div>
@@ -117,6 +121,7 @@ export default function ExplorePage() {
               <Button variant={trendingTab === "industries" ? "default" : "outline"} onClick={() => setTrendingTab("industries")}>Industries</Button>
               <Button variant={trendingTab === "professions" ? "default" : "outline"} onClick={() => setTrendingTab("professions")}>Professions</Button>
               <Button variant={trendingTab === "companies" ? "default" : "outline"} onClick={() => setTrendingTab("companies")}>Companies</Button>
+              <Button variant={trendingTab === "tutorials" ? "default" : "outline"} onClick={() => setTrendingTab("tutorials")}>Tutorials</Button>
             </div>
 
             {trendingTab === "users" && (

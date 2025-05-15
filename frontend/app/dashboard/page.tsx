@@ -145,15 +145,15 @@ export default function Dashboard() {
 
         {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard label="Time Tracked Today" value={timeToday} />
-          <StatCard label="Top Tools Today" tools={topToolsToday} />
-          <StatCard label="Top Tags Today" tags={topTagsToday} />
+          <StatCard label="⏰ My Time Today" value={timeToday} />
+          <StatCard label="🛠️ My Top Tools Today" tools={topToolsToday} />
+          <StatCard label="🏷️ My Top Uses Today" tags={topTagsToday} />
         </div>
 
         {/* Chart and Activity Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
           <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
-            <h2 className="text-xl font-semibold mb-4">Last 7 Days</h2>
+            <h2 className="text-xl font-semibold mb-4">🗓️ Last 7 Days</h2>
             <div className="flex justify-end mb-4">
               <div className="space-x-2">
                 <button onClick={() => setChartView('daily')} className={chartView === 'daily' ? 'text-black font-medium' : 'text-gray-500'}>Daily</button>
@@ -167,7 +167,7 @@ export default function Dashboard() {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow space-y-4">
-            <h2 className="text-xl font-semibold mb-4">My Activity</h2>
+            <h2 className="text-xl font-semibold mb-4">⌛️ My Activity</h2>
             <div>🔥 Streak: 7 days</div>
             <div>
               <p>📈 Current Milestone: 10 tools used</p>
