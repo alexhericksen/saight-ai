@@ -136,10 +136,42 @@ export default function MyProfile() {
         <div>
           {activeTab === "profile" && (
             <div className="space-y-8">
-              {/* Snapshot Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white p-4 rounded-xl shadow">🛠️ Top Tools (chart placeholder)</div>
-                <div className="bg-white p-4 rounded-xl shadow">🏷️ Top Uses (chart placeholder)</div>
+              {/* Scorecard Section - moved above AI Portfolio */}
+              <div className="bg-white p-6 rounded-xl shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold">💯 Scorecard</h2>
+                  <span className="text-sm text-gray-500 ml-4">Global ranking: #1 overall</span>
+                </div>
+                <div className="grid grid-cols-2 grid-rows-2 gap-4">
+                  {/* Top Tools */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                    <h3 className="text-sm font-semibold mb-2">🛠️ Top Tools</h3>
+                    <div className="flex-1 flex items-center justify-center text-gray-400">chart placeholder</div>
+                  </div>
+                  {/* Top Uses */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                    <h3 className="text-sm font-semibold mb-2">🏷️ Top Uses</h3>
+                    <div className="flex-1 flex items-center justify-center text-gray-400">chart placeholder</div>
+                  </div>
+                  {/* Industry Benchmarks */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                    <h3 className="text-sm font-semibold mb-2">Industry Benchmarks:</h3>
+                    <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                      <li>Use at least 2 AI tools per week</li>
+                      <li>Log 5+ hours in creation tools</li>
+                      <li>Share 1 project per month</li>
+                    </ul>
+                  </div>
+                  {/* Suggestions */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                    <h3 className="text-sm font-semibold mb-2">Suggestions:</h3>
+                    <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                      <li>Try Synthesia for video generation</li>
+                      <li>Experiment with Midjourney for images</li>
+                      <li>Explore new research use cases</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
 
               {/* AI Portfolio Section */}
@@ -151,18 +183,6 @@ export default function MyProfile() {
                   <Button variant="outline">Sell Services</Button>
                   <Button variant="outline">Requests</Button>
                 </div>
-              </div>
-
-              {/* Scorecard Section */}
-              <div className="bg-white p-6 rounded-xl shadow">
-                <h2 className="text-xl font-semibold mb-2">💯 Scorecard (Private/Public Toggle)</h2>
-                <ul className="list-disc ml-6 text-sm space-y-1">
-                  <li>Global Rank: Top 12%</li>
-                  <li>Top Uses: Writing, Research</li>
-                  <li>Top Tools: ChatGPT, Claude, Perplexity</li>
-                  <li>Industry Benchmarks to work on: Increase time in creation tools like Midjourney or Synthesia</li>
-                  <li>Suggestions: Try Synthesia for video generation</li>
-                </ul>
               </div>
             </div>
           )}
