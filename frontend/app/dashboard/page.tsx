@@ -106,6 +106,7 @@ export default function Dashboard() {
           <div className="text-center">
             <p className="text-sm">Industry: Marketing <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 8%)</span></p>
             <p className="text-sm">Profession: Growth Strategist <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 12%)</span></p>
+            <p className="text-sm">Company: Saight.ai <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 3%)</span></p>
           </div>
           <div className="text-right">
             <Button variant="default" className="px-4 py-2">Share</Button>
