@@ -139,46 +139,40 @@ export default function Dashboard() {
             <div className="bg-white rounded-xl shadow p-4 w-full max-w-2xl text-sm">
               <div className="text-center text-xs font-medium m-0 p-0 leading-tight">⚾️ Baseball Card ⚾️</div>
               <div className="grid grid-cols-2 gap-2">
-                {/* Triple Crown */}
-                <div>
-                  <div className="text-center text-sm font-bold mb-0.5">👑 Triple Crown 👑</div>
-                  <div className="space-y-0.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <span>⏰ Total AI Usage</span>
-                      <span className="font-semibold">41h 36m</span>
-                      <span className="text-[10px] text-gray-500">#1 overall</span>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <span>🛠️ Avg Tools/Day</span>
-                      <span className="font-semibold">6 tools</span>
-                      <span className="text-[10px] text-gray-500">#1 overall</span>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <span>📈 Expertise</span>
-                      <span className="font-semibold">6 contributions</span>
-                      <span className="text-[10px] text-gray-500">#1 overall</span>
-                    </div>
+                {/* Left Section: Remove heading, add gray cards */}
+                <div className="space-y-1">
+                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
+                    <span>⏰ Total AI Usage</span>
+                    <span className="font-semibold">41h 36m</span>
+                    <span className="text-[10px] text-gray-500">#1 overall</span>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
+                    <span>🛠️ Avg Tools/Day</span>
+                    <span className="font-semibold">6 tools</span>
+                    <span className="text-[10px] text-gray-500">#1 overall</span>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
+                    <span>📈 Expertise</span>
+                    <span className="font-semibold">6 contributions</span>
+                    <span className="text-[10px] text-gray-500">#1 overall</span>
                   </div>
                 </div>
-                {/* Industry */}
-                <div>
-                  <div className="text-center text-sm font-bold mb-0.5">🏢 Industry 🏢</div>
-                  <div className="space-y-0.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <span>🎓 Discipline</span>
-                      <span className="font-semibold">AI tech</span>
-                      <span className="text-[10px] text-gray-500">#1 overall</span>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <span>💻 Profession</span>
-                      <span className="font-semibold">Product Management</span>
-                      <span className="text-[10px] text-gray-500">#1 overall</span>
-                    </div>
-                    <div className="flex justify-between items-center text-xs">
-                      <span>💰 Company</span>
-                      <span className="font-semibold">Saight.ai</span>
-                      <span className="text-[10px] text-gray-500">#1 overall</span>
-                    </div>
+                {/* Right Section: Remove heading, add gray cards */}
+                <div className="space-y-1">
+                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
+                    <span>🎓 Discipline</span>
+                    <span className="font-semibold">AI tech</span>
+                    <span className="text-[10px] text-gray-500">#1 overall</span>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
+                    <span>💻 Profession</span>
+                    <span className="font-semibold">Product Management</span>
+                    <span className="text-[10px] text-gray-500">#1 overall</span>
+                  </div>
+                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
+                    <span>💰 Company</span>
+                    <span className="font-semibold">Saight.ai</span>
+                    <span className="text-[10px] text-gray-500">#1 overall</span>
                   </div>
                 </div>
               </div>
