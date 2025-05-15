@@ -169,7 +169,10 @@ export default function MyProfile() {
 
               {/* History Table Placeholder */}
               <div className="bg-white p-6 rounded-xl shadow">
-                <h2 className="text-lg font-semibold mb-4">⏰ My Usage History</h2>
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 className="text-lg font-semibold">⏰ My Usage History</h2>
+                  <Button variant="outline" size="sm">Filter</Button>
+                </div>
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-gray-500">
