@@ -54,25 +54,22 @@ export default function MyProfile() {
       <main className="flex-1 p-6 bg-gray-100 text-black">
         {/* Header Section */}
         <div className="flex justify-between items-center border-b pb-6 mb-6">
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-6 w-1/3">
             <div className="relative">
-              <img src="/profile.png" className="h-20 w-20 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
+              <img src="/profile.png" className="h-32 w-32 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
               <div className="absolute inset-0 rounded-full border-2 border-gray-200/50 transform -rotate-1"></div>
             </div>
-            <div>
+            <div className="flex flex-col justify-center">
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
-              <p>Total Time Tracked: 87h 42m</p>
-              <p>User since: Jan 2024</p>
-              <p>Profile Views: 198</p>
+              <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
+              <p className="text-xs text-gray-700">🎂 joined May 2025</p>
+              <Button variant="default" size="sm" className="mt-2 w-fit px-3 py-1.5">Share</Button>
             </div>
           </div>
           <div className="text-center">
             <p className="text-sm">Industry: Marketing <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 8%)</span></p>
             <p className="text-sm">Profession: Growth Strategist <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 12%)</span></p>
             <p className="text-sm">Company: Saight.ai <button><Pencil className="inline h-4 w-4 ml-1" /></button> <span className="text-xs text-gray-500">(Top 3%)</span></p>
-          </div>
-          <div className="text-right">
-            <Button variant="default" className="px-4 py-2">Share</Button>
           </div>
         </div>
 
