@@ -5,7 +5,7 @@ let activeDomain = null;
 const trackedDomains = [
   "chatgpt.com", "claude.ai", "cursor.com", "grok.com",
   "replit.com", "superhuman.com", "lovable.dev",
-  "perplexity.ai", "linear.app", "bolt.net", "notion.com"
+  "perplexity.ai", "linear.app", "bolt.net", "notion.com", "notion.so"
 ];
 
 chrome.runtime.onInstalled.addListener(() => {

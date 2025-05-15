@@ -6,6 +6,15 @@ import { Pencil, Home, User, Globe, Settings, Gift } from "lucide-react";
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
+  const [timeToday] = useState("2h 15m");
+  const [topToolsToday] = useState([
+    { tool: "ChatGPT", duration: "1h 30m" },
+    { tool: "Claude", duration: "45m" }
+  ]);
+  const [topTagsToday] = useState([
+    { tag: "Writing", duration: "1h 15m" },
+    { tag: "Research", duration: "1h" }
+  ]);
 
   return (
     <div className="flex min-h-screen">
@@ -75,12 +84,12 @@ export default function MyProfile() {
                   <div className="text-center text-sm font-bold mb-0.5">👑 Triple Crown 👑</div>
                   <div className="space-y-0.5">
                     <div className="flex justify-between items-center text-xs">
-                      <span>⏰ All-time usage</span>
+                      <span>⏰ Total AI Usage</span>
                       <span className="font-semibold">41h 36m</span>
                       <span className="text-[10px] text-gray-500">#1 overall</span>
                     </div>
                     <div className="flex justify-between items-center text-xs">
-                      <span>🛠️ Avg Daily Tools Used</span>
+                      <span>🛠️ Avg Tools/Day</span>
                       <span className="font-semibold">6 tools</span>
                       <span className="text-[10px] text-gray-500">#1 overall</span>
                     </div>
@@ -202,6 +211,47 @@ export default function MyProfile() {
           )}
         </div>
       </main>
+    </div>
+  );
+}
+
+type StatCardProps = {
+  label: string;
+  value?: string;
+  tools?: { tool: string; duration: string }[];
+  tags?: { tag: string; duration: string }[];
+};
+
+function StatCard({ label, value, tools, tags }: StatCardProps) {
+  return (
+    <div className="bg-white p-6 rounded-xl shadow">
+      <p className="mb-2">{label}</p>
+      {value && <p className="text-xl font-semibold text-black">{value}</p>}
+      {tools && tools.length > 0 && (
+        <div className="space-y-1 mt-2">
+          {tools.map((t) => (
+            <div key={t.tool} className="flex items-center justify-center space-x-2">
+              <img
+                src={`/logos/${t.tool}.png`}
+                alt={t.tool}
+                className="h-5 w-5 rounded-sm"
+              />
+              <span className="text-sm">{t.tool.replace(".com", "")}</span>
+              <span className="text-xs text-gray-500">{t.duration}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {tags && tags.length > 0 && (
+        <div className="space-y-1 mt-2">
+          {tags.map((t) => (
+            <div key={t.tag} className="flex items-center justify-center space-x-2">
+              <span className="text-sm font-medium">{t.tag}</span>
+              <span className="text-xs text-gray-500">{t.duration}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

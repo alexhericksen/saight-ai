@@ -142,12 +142,12 @@ export default function Dashboard() {
                   <div className="text-center text-sm font-bold mb-0.5">👑 Triple Crown 👑</div>
                   <div className="space-y-0.5">
                     <div className="flex justify-between items-center text-xs">
-                      <span>⏰ All-time usage</span>
+                      <span>⏰ Total AI Usage</span>
                       <span className="font-semibold">41h 36m</span>
                       <span className="text-[10px] text-gray-500">#1 overall</span>
                     </div>
                     <div className="flex justify-between items-center text-xs">
-                      <span>🛠️ Avg Daily Tools Used</span>
+                      <span>🛠️ Avg Tools/Day</span>
                       <span className="font-semibold">6 tools</span>
                       <span className="text-[10px] text-gray-500">#1 overall</span>
                     </div>
@@ -186,9 +186,9 @@ export default function Dashboard() {
 
         {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <StatCard label="⏰ My Time Today" value={timeToday} />
-          <StatCard label="🛠️ My Top Tools Today" tools={topToolsToday} />
-          <StatCard label="🏷️ My Top Uses Today" tags={topTagsToday} />
+          <StatCard label="⏰ Time Today" value={timeToday} />
+          <StatCard label="🛠️ Top Tools Today" tools={topToolsToday} />
+          <StatCard label="🏷️ Top Uses Today" tags={topTagsToday} />
         </div>
 
         {/* Chart and Activity Sections */}
