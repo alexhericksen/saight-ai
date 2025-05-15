@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
-import { Pencil, Home, User, Globe, Settings } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift } from "lucide-react";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -77,8 +77,8 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-64 bg-white text-black border-r p-6 flex flex-col justify-between">
-        <div className="space-y-4 flex items-center flex-col">
+      <aside className="w-52 bg-white text-black border-r p-6 flex flex-col justify-between">
+        <div className="space-y-4 flex items-center flex-col pt-8">
           <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
             <div className="w-5 flex justify-center">
               <Home className="h-5 w-5" />
@@ -98,12 +98,18 @@ export default function Dashboard() {
             <span>Explore</span>
           </a>
         </div>
-        <div className="space-y-6 flex items-center flex-col">
+        <div className="space-y-4 flex items-center flex-col">
           <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
             <div className="w-5 flex justify-center">
               <Settings className="h-5 w-5" />
             </div>
             <span>Settings</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Gift className="h-5 w-5" />
+            </div>
+            <span>Refer</span>
           </a>
           <div className="text-center">
             <p className="text-xs text-gray-500 mb-2">ai usage provided by</p>
