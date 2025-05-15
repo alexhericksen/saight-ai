@@ -81,9 +81,9 @@ export default function Dashboard() {
         <div>
           <img src="/logo.png" alt="Saight logo" className="h-8 w-auto mb-6" />
           <nav className="space-y-4">
-            <a href="#" className="block font-medium text-[#021BF9]">Dashboard</a>
-            <a href="#" className="block hover:text-[#021BF9]">My Profile</a>
-            <a href="#" className="block hover:text-[#021BF9]">Explore</a>
+            <a href="#" className="block font-medium text-black">Dashboard</a>
+            <a href="#" className="block hover:text-black">My Profile</a>
+            <a href="#" className="block hover:text-black">Explore</a>
           </nav>
         </div>
         <div>
@@ -114,7 +114,7 @@ export default function Dashboard() {
         </div>
 
         {/* Stat Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           <StatCard label="Time Tracked Today" value={timeToday} />
           <StatCard label="Top Tools Today" tools={topToolsToday} />
           <StatCard label="Top Tags Today" tags={topTagsToday} />
@@ -122,13 +122,13 @@ export default function Dashboard() {
 
         {/* Chart and Activity Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          <div className="lg:col-span-2 bg-white p-4 rounded-xl shadow">
-            <div className="flex justify-between mb-4">
-              <h2 className="text-lg font-semibold">Last 7 Days</h2>
+          <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow">
+            <h2 className="text-xl font-semibold mb-4">Last 7 Days</h2>
+            <div className="flex justify-end mb-4">
               <div className="space-x-2">
-                <button onClick={() => setChartView('daily')} className={chartView === 'daily' ? 'text-[#021BF9]' : 'text-gray-500'}>Daily</button>
-                <button onClick={() => setChartView('tools')} className={chartView === 'tools' ? 'text-[#021BF9]' : 'text-gray-500'}>Tools</button>
-                <button onClick={() => setChartView('tags')} className={chartView === 'tags' ? 'text-[#021BF9]' : 'text-gray-500'}>Tags</button>
+                <button onClick={() => setChartView('daily')} className={chartView === 'daily' ? 'text-black font-medium' : 'text-gray-500'}>Daily</button>
+                <button onClick={() => setChartView('tools')} className={chartView === 'tools' ? 'text-black font-medium' : 'text-gray-500'}>Tools</button>
+                <button onClick={() => setChartView('tags')} className={chartView === 'tags' ? 'text-black font-medium' : 'text-gray-500'}>Tags</button>
               </div>
             </div>
             <div className="h-64 bg-gray-100 border rounded flex items-center justify-center text-gray-400">
@@ -136,8 +136,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-white p-4 rounded-xl shadow space-y-4">
-            <h2 className="text-lg font-semibold">My Activity</h2>
+          <div className="bg-white p-6 rounded-xl shadow space-y-4">
+            <h2 className="text-xl font-semibold mb-4">My Activity</h2>
             <div>🔥 Streak: 7 days</div>
             <div>
               <p>📈 Current Milestone: 10 tools used</p>
@@ -149,7 +149,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-[#021BF9] text-white p-6 rounded-xl shadow flex items-center justify-between mt-6">
+        <div className="bg-black text-white p-6 rounded-xl shadow flex items-center justify-between mt-6">
           <button>{'<'}</button>
           <p className="text-lg font-medium">Search My History</p>
           <button>{'>'}</button>
@@ -168,9 +168,9 @@ type StatCardProps = {
 
 function StatCard({ label, value, tools, tags }: StatCardProps) {
   return (
-    <div className="bg-white p-4 rounded-xl shadow">
-      <p className="text-sm text-gray-500 mb-2">{label}</p>
-      {value && <p className="text-xl font-semibold text-[#021BF9]">{value}</p>}
+    <div className="bg-white p-6 rounded-xl shadow">
+      <p className="mb-2">{label}</p>
+      {value && <p className="text-xl font-semibold text-black">{value}</p>}
       {tools && tools.length > 0 && (
         <div className="space-y-1 mt-2">
           {tools.map((t) => (

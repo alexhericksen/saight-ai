@@ -82,8 +82,11 @@ export default function ExplorePage() {
             <div className="flex space-x-2 mb-4">
               <Button variant={trendingTab === "users" ? "default" : "outline"} onClick={() => setTrendingTab("users")}>Users</Button>
               <Button variant={trendingTab === "tools" ? "default" : "outline"} onClick={() => setTrendingTab("tools")}>Tools</Button>
-              <Button variant={trendingTab === "uses" ? "default" : "outline"} onClick={() => setTrendingTab("uses")}>Tool Uses</Button>
+              <Button variant={trendingTab === "uses" ? "default" : "outline"} onClick={() => setTrendingTab("uses")}>Uses</Button>
               <Button variant={trendingTab === "portfolios" ? "default" : "outline"} onClick={() => setTrendingTab("portfolios")}>Portfolios</Button>
+              <Button variant={trendingTab === "industries" ? "default" : "outline"} onClick={() => setTrendingTab("industries")}>Industries</Button>
+              <Button variant={trendingTab === "professions" ? "default" : "outline"} onClick={() => setTrendingTab("professions")}>Professions</Button>
+              <Button variant={trendingTab === "companies" ? "default" : "outline"} onClick={() => setTrendingTab("companies")}>Companies</Button>
             </div>
 
             {trendingTab === "users" && (
@@ -111,6 +114,27 @@ export default function ExplorePage() {
               <div className="space-y-4">
                 <div className="bg-white p-4 rounded-xl shadow">🎨 <strong>Emma Rivera's AI Moodboard Generator</strong> – 54 Cheers</div>
                 <div className="bg-white p-4 rounded-xl shadow">🎧 <strong>Andre Silva's Synthesia-powered interview series</strong> – Highly shared</div>
+              </div>
+            )}
+
+            {trendingTab === "industries" && (
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-xl shadow">🎯 <strong>Go-to-Market (GTM)</strong> – 2.8x AI adoption rate</div>
+                <div className="bg-white p-4 rounded-xl shadow">📊 <strong>Product Management</strong> – 2.5x increase in AI tool usage</div>
+              </div>
+            )}
+
+            {trendingTab === "professions" && (
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-xl shadow">📱 <strong>Digital Marketers</strong> – 3.2x AI tool engagement</div>
+                <div className="bg-white p-4 rounded-xl shadow">💼 <strong>Account Executives</strong> – 2.9x growth in AI usage</div>
+              </div>
+            )}
+
+            {trendingTab === "companies" && (
+              <div className="space-y-4">
+                <div className="bg-white p-4 rounded-xl shadow">🏢 <strong>Notion</strong> – 2,450 AI users tracking their usage</div>
+                <div className="bg-white p-4 rounded-xl shadow">🏢 <strong>HubSpot</strong> – 1,892 AI users tracking their usage</div>
               </div>
             )}
           </div>
