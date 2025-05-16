@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building, Calendar } from "lucide-react";
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 
 export default function MyProfile() {
@@ -308,33 +308,55 @@ export default function MyProfile() {
                   <Button variant="outline" size="sm" className="w-full flex justify-center">Import Usage</Button>
                 </div>
               </div>
-              {/* History Table Placeholder */}
+              {/* History Table */}
               <div className="bg-white p-6 rounded-xl shadow">
-                <div className="flex items-center gap-2 mb-4">
-                  <h2 className="text-lg font-semibold">⏰ My Usage History</h2>
-                  <Button variant="outline" size="sm">Filter</Button>
+                <div className="mb-4">
+                  <h2 className="text-xl font-semibold mb-4 text-left">⏰ My Usage History</h2>
                 </div>
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-gray-500">
-                      <th className="pb-2">Date</th>
-                      <th className="pb-2">Tool</th>
-                      <th className="pb-2">Duration</th>
-                      <th className="pb-2">Tags</th>
+                    <tr className="text-gray-500">
+                      <th className="pb-2 text-left">
+                        <button type="button" className="hover:underline">🗓️ Date</button>
+                      </th>
+                      <th className="pb-2 text-center">
+                        <button type="button" className="hover:underline w-full">🛠️ Tool Name</button>
+                      </th>
+                      <th className="pb-2 text-center">
+                        <button type="button" className="hover:underline w-full">⏰ Duration</button>
+                      </th>
+                      <th className="pb-2 text-center">
+                        <button type="button" className="hover:underline w-full">🏷️ Use Category</button>
+                      </th>
+                      <th className="pb-2 text-center">
+                        <button type="button" className="hover:underline w-full">🏷️🏷️ Use Detail</button>
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-t">
-                      <td className="py-2">May 14</td>
-                      <td className="py-2">ChatGPT</td>
-                      <td className="py-2">47m</td>
-                      <td className="py-2"><Button variant="link">Add Tag</Button></td>
+                      <td className="py-2 text-left">May 14</td>
+                      <td className="py-2 text-center">ChatGPT</td>
+                      <td className="py-2 text-center">47m</td>
+                      <td className="py-2 flex justify-center items-center">
+                        <span>Work</span>
+                        <EditIcon />
+                      </td>
+                      <td className="py-2 flex justify-center items-center">
+                        {/* Only one pencil in Use Category, none here for now */}
+                      </td>
                     </tr>
                     <tr className="border-t">
-                      <td className="py-2">May 13</td>
-                      <td className="py-2">Perplexity</td>
-                      <td className="py-2">1h 20m</td>
-                      <td className="py-2"><Button variant="link">Add Tag</Button></td>
+                      <td className="py-2 text-left">May 13</td>
+                      <td className="py-2 text-center">Perplexity</td>
+                      <td className="py-2 text-center">1h 20m</td>
+                      <td className="py-2 flex justify-center items-center">
+                        <span>Work</span>
+                        <EditIcon />
+                      </td>
+                      <td className="py-2 flex justify-center items-center">
+                        {/* Only one pencil in Use Category, none here for now */}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -396,4 +418,9 @@ function StatCard({ label, value, tools, tags }: StatCardProps) {
 // Helper sticker badge component
 const ProSticker = ({ children }: { children: React.ReactNode }) => (
   <span className="absolute -top-3 -left-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md z-10 select-none" style={{letterSpacing: '0.01em'}}>{children}</span>
+);
+
+// Edit icon component for table cells
+const EditIcon = () => (
+  <Pencil className="h-3 w-3 text-gray-400 hover:text-gray-600 cursor-pointer ml-1" />
 );
