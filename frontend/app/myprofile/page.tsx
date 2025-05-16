@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
+import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -16,6 +17,7 @@ export default function MyProfile() {
     { tag: "Writing", duration: "1h 15m" },
     { tag: "Research", duration: "1h" }
   ]);
+  const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen">
@@ -50,20 +52,17 @@ export default function MyProfile() {
               <span className="absolute -bottom-2 -right-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md">Pro</span>
             </a>
           </div>
-          {/* Centered section for Usage Settings and Track New */}
-          <div className="flex flex-col items-center space-y-2 mt-16 mb-8">
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="w-5 flex justify-center">
-                <BarChart2 className="h-5 w-5" />
-              </div>
-              <span>Usage Settings</span>
-            </a>
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          {/* Centered section for Track New only */}
+          <div className="flex flex-col items-center mt-16 mb-8">
+            <button 
+              onClick={() => setIsTrackToolOpen(true)}
+              className="flex items-center justify-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors w-full"
+            >
               <div className="w-5 flex justify-center">
                 <Plus className="h-5 w-5" />
               </div>
               <span>Track New</span>
-            </a>
+            </button>
           </div>
         </div>
         <div className="space-y-4 flex items-center flex-col">
@@ -303,8 +302,7 @@ export default function MyProfile() {
               {/* Actions Card */}
               <div className="bg-white p-3 rounded-xl shadow flex items-center space-x-4 mb-2">
                 <span className="text-sm font-medium text-gray-700 mr-2">Actions:</span>
-                <Button variant="outline" size="sm">Usage Settings</Button>
-                <Button variant="outline" size="sm">+ Track New Tool</Button>
+                <Button variant="outline" size="sm" onClick={() => setIsTrackToolOpen(true)}>Manage Tools</Button>
                 <div className="relative flex items-center justify-center">
                   <ProSticker>Pro</ProSticker>
                   <Button variant="outline" size="sm" className="w-full flex justify-center">Import Usage</Button>
@@ -345,6 +343,11 @@ export default function MyProfile() {
           )}
         </div>
       </main>
+
+      <TrackToolDialog 
+        open={isTrackToolOpen} 
+        onOpenChange={setIsTrackToolOpen} 
+      />
     </div>
   );
 }

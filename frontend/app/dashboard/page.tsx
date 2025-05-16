@@ -5,12 +5,14 @@ import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
+import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
   const [topToolsToday, setTopToolsToday] = useState<{ tool: string; duration: string }[]>([]);
   const [topTagsToday, setTopTagsToday] = useState<{ tag: string; duration: string }[]>([]);
   const [timeToday, setTimeToday] = useState("0m");
+  const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
 
   useEffect(() => {
     const fetchTodayStats = async () => {
@@ -108,20 +110,17 @@ export default function Dashboard() {
               <span className="absolute -bottom-2 -right-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md">Pro</span>
             </a>
           </div>
-          {/* Centered section for Usage Settings and Track New */}
-          <div className="flex flex-col items-center space-y-2 mt-16 mb-8">
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="w-5 flex justify-center">
-                <BarChart2 className="h-5 w-5" />
-              </div>
-              <span>Usage Settings</span>
-            </a>
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          {/* Centered section for Track New only */}
+          <div className="flex flex-col items-center mt-16 mb-8">
+            <button 
+              onClick={() => setIsTrackToolOpen(true)}
+              className="flex items-center justify-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors w-full"
+            >
               <div className="w-5 flex justify-center">
                 <Plus className="h-5 w-5" />
               </div>
               <span>Track New</span>
-            </a>
+            </button>
           </div>
         </div>
         <div className="space-y-4 flex items-center flex-col">
@@ -254,6 +253,11 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
+
+      <TrackToolDialog 
+        open={isTrackToolOpen} 
+        onOpenChange={setIsTrackToolOpen} 
+      />
     </div>
   );
 }
