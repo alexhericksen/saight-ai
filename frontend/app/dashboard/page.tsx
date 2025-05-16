@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
+import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil, Home, User, Globe, Settings, Gift, Bell } from "lucide-react";
 
 export default function Dashboard() {
@@ -131,7 +132,12 @@ export default function Dashboard() {
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
               <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
               <p className="text-xs text-gray-700">🎂 joined May 2025</p>
-              <Button variant="default" size="sm" className="mt-2 w-fit px-7 py-0.5">Share</Button>
+              <div className="flex items-center space-x-3 mt-2">
+                <div className="flex flex-col items-center">
+                  <ToggleSwitch checked={true} onChange={() => {}} label="public" />
+                </div>
+                <Button variant="default" size="sm" className="w-fit px-7 py-0.5">Share</Button>
+              </div>
             </div>
           </div>
           {/* Center: Baseball Card */}

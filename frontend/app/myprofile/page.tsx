@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Pencil, Home, User, Globe, Settings, Gift } from "lucide-react";
+import { ToggleSwitch } from "@/components/ui/toggle-switch";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell } from "lucide-react";
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -76,7 +77,12 @@ export default function MyProfile() {
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
               <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
               <p className="text-xs text-gray-700">🎂 joined May 2025</p>
-              <Button variant="default" size="sm" className="mt-2 w-fit px-7 py-0.5">Share</Button>
+              <div className="flex items-center space-x-3 mt-2">
+                <div className="flex flex-col items-center">
+                  <ToggleSwitch checked={true} onChange={() => {}} label="public" />
+                </div>
+                <Button variant="default" size="sm" className="w-fit px-7 py-0.5">Share</Button>
+              </div>
             </div>
           </div>
           {/* Center: Baseball Card */}
@@ -123,11 +129,18 @@ export default function MyProfile() {
               </div>
             </div>
           </div>
+          {/* Right: Notifications Icon - absolutely positioned */}
+          <div className="absolute right-0 top-0 flex items-start justify-end w-24" style={{ top: 0 }}>
+            <div className="bg-white rounded-full shadow p-2 flex items-center justify-center">
+              <Bell className="h-5 w-5 text-gray-700" />
+            </div>
+          </div>
         </div>
 
         {/* Tab Navigation */}
         <div className="flex space-x-4 mb-6">
-          <Button variant={activeTab === "profile" ? "default" : "outline"} onClick={() => setActiveTab("profile")}>My Profile</Button>
+          <Button variant={activeTab === "profile" ? "default" : "outline"} onClick={() => setActiveTab("profile")}>AI Scorecard</Button>
+          <Button variant={activeTab === "portfolio" ? "default" : "outline"} onClick={() => setActiveTab("portfolio")}>AI Portfolio</Button>
           <Button variant={activeTab === "history" ? "default" : "outline"} onClick={() => setActiveTab("history")}>Usage History</Button>
         </div>
 
@@ -141,7 +154,7 @@ export default function MyProfile() {
                   <h2 className="text-xl font-semibold">💯 Scorecard</h2>
                   <span className="text-sm text-gray-500 ml-4">Global ranking: #1 overall</span>
                 </div>
-                <div className="grid grid-cols-2 grid-rows-2 gap-4">
+                <div className="grid grid-cols-2 grid-rows-3 gap-4">
                   {/* Top Tools */}
                   <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
                     <h3 className="text-sm font-semibold mb-2">🛠️ Top Tools</h3>
@@ -170,17 +183,80 @@ export default function MyProfile() {
                       <li>Explore new research use cases</li>
                     </ul>
                   </div>
+                  {/* Job Matches */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                    <h3 className="text-sm font-semibold mb-2">Job Matches</h3>
+                    <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                      <li>AI Product Manager at OpenAI</li>
+                      <li>Machine Learning Lead at Google</li>
+                      <li>AI Solutions Architect at Microsoft</li>
+                    </ul>
+                  </div>
+                  {/* Recruiter Requests */}
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                    <h3 className="text-sm font-semibold mb-2">Recruiter Requests</h3>
+                    <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                      <li>Jane Doe (OpenAI) - Interested in your profile</li>
+                      <li>John Smith (Google) - Wants to connect</li>
+                      <li>Emily Lee (Microsoft) - Sent a message</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
+            </div>
+          )}
 
-              {/* AI Portfolio Section */}
-              <div className="bg-white p-6 rounded-xl shadow">
-                <h2 className="text-xl font-semibold mb-2">💼 AI Portfolio</h2>
-                <p className="text-sm text-gray-500 mb-4">Upload links, files, and media showcasing your AI work.</p>
-                <div className="flex flex-wrap gap-2">
-                  <Button variant="outline">Upload</Button>
-                  <Button variant="outline">Sell Services</Button>
-                  <Button variant="outline">Requests</Button>
+          {activeTab === "portfolio" && (
+            <div className="bg-white p-6 rounded-xl shadow">
+              <h2 className="text-xl font-semibold mb-4">💼 AI Portfolio</h2>
+              <div className="grid grid-cols-2 grid-rows-2 gap-4">
+                {/* Projects */}
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-sm font-semibold">Projects</h3>
+                    <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ upload</Button>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-1">showcase things you've built with AI</p>
+                  <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                    <li>AI-powered Resume Builder</li>
+                    <li>Chatbot for Customer Support</li>
+                    <li>Automated Market Research Tool</li>
+                  </ul>
+                </div>
+                {/* Tutorials */}
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-sm font-semibold">Tutorials</h3>
+                    <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ upload</Button>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-1">show how you use AI</p>
+                  <ul className="list-disc ml-4 text-sm text-blue-600 space-y-1">
+                    <li><a href="#" className="hover:underline">How to automate emails with GPT-4</a></li>
+                    <li><a href="#" className="hover:underline">Prompt engineering for beginners</a></li>
+                    <li><a href="#" className="hover:underline">Building a custom AI assistant</a></li>
+                  </ul>
+                </div>
+                {/* Offer Services */}
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-sm font-semibold">Offer Services</h3>
+                    <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ add</Button>
+                  </div>
+                  <p className="text-xs text-gray-400 mb-1">offer coaching or consulting services</p>
+                  <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                    <li>1:1 AI career coaching</li>
+                    <li>Custom AI tool consulting</li>
+                    <li>Team AI training sessions</li>
+                  </ul>
+                </div>
+                {/* Service Requests */}
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <h3 className="text-sm font-semibold mb-2">Service Requests</h3>
+                  <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
+                    <li>Sarah (Acme Corp) - Interested in coaching</li>
+                    <li>Mike (Beta Inc) - Needs AI consulting</li>
+                    <li>Lisa (Gamma LLC) - Wants a training session</li>
+                  </ul>
                 </div>
               </div>
             </div>
@@ -188,13 +264,13 @@ export default function MyProfile() {
 
           {activeTab === "history" && (
             <div className="space-y-6">
-              {/* Buttons */}
-              <div className="flex space-x-4">
-                <Button variant="outline">Tag Settings</Button>
-                <Button variant="outline">Add AI Tools</Button>
-                <Button variant="outline">Import Usage</Button>
+              {/* Actions Card */}
+              <div className="bg-white p-3 rounded-xl shadow flex items-center space-x-4 mb-2">
+                <span className="text-sm font-medium text-gray-700 mr-2">Actions:</span>
+                <Button variant="outline" size="sm">Usage Settings</Button>
+                <Button variant="outline" size="sm">Add AI Tools</Button>
+                <Button variant="outline" size="sm">Import Usage</Button>
               </div>
-
               {/* History Table Placeholder */}
               <div className="bg-white p-6 rounded-xl shadow">
                 <div className="flex items-center gap-2 mb-4">
