@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2 } from "lucide-react";
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -41,6 +41,15 @@ export default function MyProfile() {
                 <Globe className="h-5 w-5" />
               </div>
               <span>Explore</span>
+            </a>
+          </div>
+          {/* Centered section for Usage Settings and Track New */}
+          <div className="flex flex-col items-center space-y-2 mt-20 mb-8">
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <BarChart2 className="h-5 w-5" />
+              </div>
+              <span>Usage Settings</span>
             </a>
             <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="w-5 flex justify-center">

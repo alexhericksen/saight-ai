@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2 } from "lucide-react";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -79,31 +79,43 @@ export default function Dashboard() {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-52 bg-white text-black border-r p-6 flex flex-col justify-between">
-        <div className="space-y-4 flex items-center flex-col pt-8">
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <Home className="h-5 w-5" />
-            </div>
-            <span className="font-medium">Dashboard</span>
-          </a>
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <User className="h-5 w-5" />
-            </div>
-            <span>My Profile</span>
-          </a>
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <Globe className="h-5 w-5" />
-            </div>
-            <span>Explore</span>
-          </a>
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <Plus className="h-5 w-5" />
-            </div>
-            <span>Track New</span>
-          </a>
+        <div>
+          {/* Main Menu Items */}
+          <div className="space-y-4 flex items-center flex-col pt-8">
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <Home className="h-5 w-5" />
+              </div>
+              <span className="font-medium">Dashboard</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <User className="h-5 w-5" />
+              </div>
+              <span className="font-medium">My Profile</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <Globe className="h-5 w-5" />
+              </div>
+              <span>Explore</span>
+            </a>
+          </div>
+          {/* Centered section for Usage Settings and Track New */}
+          <div className="flex flex-col items-center space-y-2 mt-20 mb-8">
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <BarChart2 className="h-5 w-5" />
+              </div>
+              <span>Usage Settings</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <Plus className="h-5 w-5" />
+              </div>
+              <span>Track New</span>
+            </a>
+          </div>
         </div>
         <div className="space-y-4 flex items-center flex-col">
           <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
