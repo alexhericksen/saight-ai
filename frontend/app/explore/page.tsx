@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Search } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building, Search } from "lucide-react";
 
 export default function ExplorePage() {
   const [activeTab, setActiveTab] = useState("feed");
@@ -15,7 +15,7 @@ export default function ExplorePage() {
       <aside className="w-52 bg-white text-black border-r p-6 flex flex-col justify-between">
         <div>
           {/* Main Menu Items */}
-          <div className="space-y-4 flex items-center flex-col pt-8">
+          <div className="space-y-4 flex items-center flex-col pt-6">
             <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="w-5 flex justify-center">
                 <Home className="h-5 w-5" />
@@ -32,11 +32,18 @@ export default function ExplorePage() {
               <div className="w-5 flex justify-center">
                 <Globe className="h-5 w-5" />
               </div>
-              <span className="font-medium">Explore</span>
+              <span>Explore</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors relative">
+              <div className="w-5 flex justify-center">
+                <Building className="h-5 w-5" />
+              </div>
+              <span>My Company</span>
+              <span className="absolute -bottom-2 -right-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md">Pro</span>
             </a>
           </div>
           {/* Centered section for Usage Settings and Track New */}
-          <div className="flex flex-col items-center space-y-2 mt-20 mb-8">
+          <div className="flex flex-col items-center space-y-2 mt-16 mb-8">
             <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="w-5 flex justify-center">
                 <BarChart2 className="h-5 w-5" />
