@@ -82,10 +82,11 @@ export function TrackToolDialog({ open, onOpenChange }: { open: boolean; onOpenC
       <DialogContent className="sm:max-w-[800px] min-h-[520px] flex flex-col justify-start">
         {/* Centered heading at the very top */}
         <div className="w-full text-center text-lg font-semibold mb-2">🛠️ Manage Tracked Tools</div>
-        {/* Tab buttons at the top, styled like page tabs */}
-        <div className="flex justify-center gap-2 mb-4">
-          <button className={tabBtn(activeTab === 'track')} onClick={() => setActiveTab('track')}>Track New Tool</button>
-          <button className={tabBtn(activeTab === 'tracking')} onClick={() => setActiveTab('tracking')}>Currently Tracking</button>
+        {/* Smaller tab buttons, less vertical spacing */}
+        <div className="flex justify-center gap-2 mb-1 mt-0">
+          {/* Set a fixed width for both tab buttons for consistency */}
+          <button className={tabBtn(activeTab === 'track') + ' px-2 py-1 text-xs w-48'} onClick={() => setActiveTab('track')}>Track New Tool</button>
+          <button className={tabBtn(activeTab === 'tracking') + ' px-2 py-1 text-xs w-48'} onClick={() => setActiveTab('tracking')}>Currently Tracking</button>
         </div>
         {/* Consistent pop-up size for both tabs */}
         <div className="flex-1 flex flex-col justify-between">
@@ -94,47 +95,50 @@ export function TrackToolDialog({ open, onOpenChange }: { open: boolean; onOpenC
               <div className="w-full max-w-xl space-y-4">
                 {/* Tools card with dropdown and inputs */}
                 <div className="bg-gray-50 rounded-lg p-4 shadow-inner">
-                  {/* Dropdown replaces 'Tool' header */}
-                  <Select value={selectedTool} onValueChange={setSelectedTool}>
-                    <SelectTrigger className="w-full justify-center">
-                      <SelectValue placeholder="Select a Tool" className="text-center" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {availableTools.map((tool) => (
-                        <SelectItem key={tool.id} value={tool.id}>
-                          {tool.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {/* Small explainer text below dropdown */}
-                  <div className="text-center text-xs text-gray-500 my-1 py-0" style={{ fontSize: '0.75em' }}>
-                    Tool not in the list? Add it below:
+                  <div className="relative w-full">
+                    <Select value={selectedTool} onValueChange={setSelectedTool}>
+                      <SelectTrigger className="w-full flex items-center justify-center relative hide-default-arrow">
+                        <span className="flex items-center mx-auto">
+                          <span>Select a Tool</span>
+                        </span>
+                        <SelectValue className="hidden" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {availableTools.map((tool) => (
+                          <SelectItem key={tool.id} value={tool.id}>
+                            {tool.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div className="space-y-2 mt-2 ml-4">
+                  {/* Tool fields, full width */}
+                  <div className="space-y-2 mt-2">
                     <Input
+                      className="w-full"
                       placeholder="Domain: example.com"
                       value={newTool.domain}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTool({ ...newTool, domain: e.target.value })}
                     />
                     <Input
-                      placeholder="Concise but descriptive name, example: 'ChatGPT web'"
+                      className="w-full"
+                      placeholder="Name (concise but descriptive): example, 'ChatGPT web'"
                       value={newTool.name}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTool({ ...newTool, name: e.target.value })}
                     />
                   </div>
                 </div>
-                {/* Use card with lighter heading and simplified dropdowns */}
+                {/* Use card with lighter heading and simplified dropdowns, full width */}
                 <div className="bg-gray-50 rounded-lg p-4 shadow-inner">
                   <div className="text-left mb-2 font-semibold flex items-center gap-2">
                     Use <span className="text-xs font-normal text-gray-400">(Recommended)</span>
                   </div>
-                  <div className="space-y-2 ml-4">
+                  <div className="space-y-2">
                     <Select
                       value={newTool.category}
                       onValueChange={(value: string) => setNewTool({ ...newTool, category: value })}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select Category" />
                       </SelectTrigger>
                       <SelectContent>
@@ -148,7 +152,7 @@ export function TrackToolDialog({ open, onOpenChange }: { open: boolean; onOpenC
                       value={newTool.detail}
                       onValueChange={(value: string) => setNewTool({ ...newTool, detail: value })}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select Detail" />
                       </SelectTrigger>
                       <SelectContent>
@@ -161,44 +165,59 @@ export function TrackToolDialog({ open, onOpenChange }: { open: boolean; onOpenC
                   </div>
                 </div>
               </div>
-              {/* Centered Cancel/Save buttons at the bottom of the pop-up */}
-              <div className="flex justify-center space-x-2 pt-6 w-full absolute left-0 right-0 bottom-6">
-                <Button variant="outline" onClick={() => onOpenChange(false)}>
-                  Cancel
-                </Button>
-                <Button onClick={handleSave}>
-                  Save
-                </Button>
-              </div>
             </div>
           )}
           {activeTab === 'tracking' && (
             <div className="space-y-4 w-full max-w-xl mx-auto" style={{ fontSize: '0.8em' }}>
-              <div className="font-medium text-center mb-2">Currently Tracking:</div>
+              {/* Table headers with all borders and centered text, updated labels */}
+              <div className="grid grid-cols-4 gap-0 font-semibold text-gray-700 text-xs">
+                <div className="border border-gray-300 rounded-tl-lg px-2 py-1 bg-gray-100 text-center">Tool: Domain</div>
+                <div className="border border-gray-300 px-2 py-1 bg-gray-100 text-center">Tool: Name</div>
+                <div className="border border-gray-300 px-2 py-1 bg-gray-100 text-center">Use: Category</div>
+                <div className="border border-gray-300 rounded-tr-lg px-2 py-1 bg-gray-100 text-center">Use: Detail</div>
+              </div>
+              {/* Placeholder rows: left-justify col 1, center cols 2-4 */}
               <div className="space-y-2">
-                {trackedTools.map((tool) => (
-                  <div key={tool.id} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                    <div className="space-y-1">
-                      <div className="text-sm font-medium">{tool.name}</div>
-                      <div className="text-xs text-gray-500">{tool.domain}</div>
-                      <div className="text-xs text-gray-500">
-                        {tool.category} - {tool.detail}
-                      </div>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleRemoveTool(tool.id)}
-                    >
-                      -
-                    </Button>
-                  </div>
-                ))}
+                <div className="grid grid-cols-4 gap-0 items-center border rounded-lg shadow-sm cursor-pointer transition hover:bg-gray-100">
+                  <div className="px-2 py-2 text-left">ChatGPT.com</div>
+                  <div className="px-2 py-2 text-center">ChatGPT web</div>
+                  <div className="px-2 py-2 text-center">Work</div>
+                  <div className="px-2 py-2 text-center">Programming</div>
+                </div>
+                <div className="grid grid-cols-4 gap-0 items-center border rounded-lg shadow-sm cursor-pointer transition hover:bg-gray-100">
+                  <div className="px-2 py-2 text-left">Cursor.com</div>
+                  <div className="px-2 py-2 text-center">Cursor app</div>
+                  <div className="px-2 py-2 text-center">Work</div>
+                  <div className="px-2 py-2 text-center">Programming</div>
+                </div>
+                <div className="grid grid-cols-4 gap-0 items-center border rounded-lg shadow-sm cursor-pointer transition hover:bg-gray-100">
+                  <div className="px-2 py-2 text-left">Perplexity.ai</div>
+                  <div className="px-2 py-2 text-center">Perplexity web</div>
+                  <div className="px-2 py-2 text-center">Work</div>
+                  <div className="px-2 py-2 text-center">Research</div>
+                </div>
               </div>
             </div>
           )}
+          {/* Four bottom buttons, always visible and centered according to full width */}
+          <div className="flex w-full justify-center mt-6 mb-2">
+            <div className="flex gap-3 w-full max-w-xl justify-center">
+              {/* All buttons same width, centered */}
+              <Button variant="outline" className="w-32">Cancel</Button>
+              <Button className="w-32">Add</Button>
+              <Button variant="destructive" className="w-32">Remove</Button>
+              <Button variant="outline" className="w-32">Save & Exit</Button>
+            </div>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
   );
-} 
+}
+
+/* --- CSS to hide default SelectPrimitive.Icon in SelectTrigger --- */
+<style jsx global>{`
+  .hide-default-arrow [data-radix-select-trigger] > svg.h-4.w-4.opacity-50 {
+    display: none !important;
+  }
+`}</style> 
