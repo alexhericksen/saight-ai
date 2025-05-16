@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus } from "lucide-react";
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -41,6 +41,12 @@ export default function MyProfile() {
                 <Globe className="h-5 w-5" />
               </div>
               <span>Explore</span>
+            </a>
+            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+              <div className="w-5 flex justify-center">
+                <Plus className="h-5 w-5" />
+              </div>
+              <span>Track New</span>
             </a>
           </div>
         </div>
@@ -276,10 +282,10 @@ export default function MyProfile() {
               <div className="bg-white p-3 rounded-xl shadow flex items-center space-x-4 mb-2">
                 <span className="text-sm font-medium text-gray-700 mr-2">Actions:</span>
                 <Button variant="outline" size="sm">Usage Settings</Button>
-                <Button variant="outline" size="sm">Add AI Tools</Button>
-                <div className="relative">
+                <Button variant="outline" size="sm">+ Track New Tool</Button>
+                <div className="relative flex items-center justify-center">
                   <ProSticker>Pro</ProSticker>
-                  <Button variant="outline" size="sm" className="pl-8">Import Usage</Button>
+                  <Button variant="outline" size="sm" className="w-full flex justify-center">Import Usage</Button>
                 </div>
               </div>
               {/* History Table Placeholder */}

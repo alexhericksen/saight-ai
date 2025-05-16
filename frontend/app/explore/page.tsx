@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus } from "lucide-react";
 
 export default function ExplorePage() {
   const [activeTab, setActiveTab] = useState("feed");
@@ -31,6 +31,12 @@ export default function ExplorePage() {
               <Globe className="h-5 w-5" />
             </div>
             <span className="font-medium">Explore</span>
+          </a>
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+            <div className="w-5 flex justify-center">
+              <Plus className="h-5 w-5" />
+            </div>
+            <span>Track New</span>
           </a>
         </div>
         <div className="space-y-4 flex items-center flex-col">
