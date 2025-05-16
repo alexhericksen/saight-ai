@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2 } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Search } from "lucide-react";
 
 export default function ExplorePage() {
   const [activeTab, setActiveTab] = useState("feed");
@@ -146,32 +146,56 @@ export default function ExplorePage() {
 
         {/* Explore Tab Navigation */}
         <div className="flex space-x-4 mb-6">
+          <Button variant={activeTab === "trending" ? "default" : "outline"} onClick={() => setActiveTab("trending")}>Explore Trending</Button>
           <Button variant={activeTab === "feed" ? "default" : "outline"} onClick={() => setActiveTab("feed")}>Feed</Button>
-          <Button variant={activeTab === "trending" ? "default" : "outline"} onClick={() => setActiveTab("trending")}>Trending This Week</Button>
         </div>
 
         {/* Feed Tab */}
         {activeTab === "feed" && (
           <div className="space-y-6">
-            <Button variant="outline">+ Post</Button>
-            <div className="bg-white p-4 rounded-xl shadow">
-              <p><strong>Sarah Lopez</strong> reached 100 hours of tracked AI usage! 🎉</p>
-              <p className="text-sm text-gray-500">"Excited to cross this milestone! Thanks to Saight for the insights. 💡"</p>
-              <div className="flex space-x-4 mt-2 text-sm text-gray-600">
-                <span>🎉 18 Cheers</span>
-                <span>💬 3 Comments</span>
-                <button className="hover:text-gray-800">✈️ Send</button>
-                <button className="hover:text-gray-800">🔖 Save</button>
+            {/* Actions Bar */}
+            <div className="flex items-center space-x-4 mb-6">
+              <div className="flex-1 flex items-center space-x-2 bg-white rounded-lg border p-2">
+                <Search className="h-4 w-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search feed..."
+                  className="flex-1 outline-none text-sm"
+                />
               </div>
+              <Button variant="outline">Search</Button>
             </div>
-            <div className="bg-white p-4 rounded-xl shadow">
-              <p><strong>Jared Kim</strong> just launched a new AI tool for fitness tracking 📈</p>
-              <p className="text-sm text-gray-500">"Built with Replit, Perplexity and Claude. Tracks reps and suggests new workouts."</p>
-              <div className="flex space-x-4 mt-2 text-sm text-gray-600">
-                <span>🎉 26 Cheers</span>
-                <span>💬 5 Comments</span>
-                <button className="hover:text-gray-800">✈️ Send</button>
-                <button className="hover:text-gray-800">🔖 Save</button>
+
+            {/* Feed Content */}
+            <div className="bg-white rounded-xl shadow p-6">
+              <div className="flex items-center space-x-4 mb-4">
+                <h2 className="text-xl font-semibold">🍗 Feed</h2>
+                <Button variant="outline" className="flex items-center space-x-2">
+                  <Plus className="h-4 w-4" />
+                  <span>Post</span>
+                </Button>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p><strong>Sarah Lopez</strong> reached 100 hours of tracked AI usage! 🎉</p>
+                  <p className="text-sm text-gray-500">"Excited to cross this milestone! Thanks to Saight for the insights. 💡"</p>
+                  <div className="flex space-x-4 mt-2 text-sm text-gray-600">
+                    <span>🎉 18 Cheers</span>
+                    <span>💬 3 Comments</span>
+                    <button className="hover:text-gray-800">✈️ Send</button>
+                    <button className="hover:text-gray-800">🔖 Save</button>
+                  </div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p><strong>Jared Kim</strong> just launched a new AI tool for fitness tracking 📈</p>
+                  <p className="text-sm text-gray-500">"Built with Replit, Perplexity and Claude. Tracks reps and suggests new workouts."</p>
+                  <div className="flex space-x-4 mt-2 text-sm text-gray-600">
+                    <span>🎉 26 Cheers</span>
+                    <span>💬 5 Comments</span>
+                    <button className="hover:text-gray-800">✈️ Send</button>
+                    <button className="hover:text-gray-800">🔖 Save</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -180,65 +204,116 @@ export default function ExplorePage() {
         {/* Trending This Week */}
         {activeTab === "trending" && (
           <div className="space-y-6">
-            <div className="flex space-x-2 mb-4">
-              <Button variant={trendingTab === "users" ? "default" : "outline"} onClick={() => setTrendingTab("users")}>Users</Button>
-              <Button variant={trendingTab === "tools" ? "default" : "outline"} onClick={() => setTrendingTab("tools")}>Tools</Button>
-              <Button variant={trendingTab === "uses" ? "default" : "outline"} onClick={() => setTrendingTab("uses")}>Uses</Button>
-              <Button variant={trendingTab === "portfolios" ? "default" : "outline"} onClick={() => setTrendingTab("portfolios")}>Portfolios</Button>
-              <Button variant={trendingTab === "industries" ? "default" : "outline"} onClick={() => setTrendingTab("industries")}>Industries</Button>
-              <Button variant={trendingTab === "professions" ? "default" : "outline"} onClick={() => setTrendingTab("professions")}>Professions</Button>
-              <Button variant={trendingTab === "companies" ? "default" : "outline"} onClick={() => setTrendingTab("companies")}>Companies</Button>
-              <Button variant={trendingTab === "tutorials" ? "default" : "outline"} onClick={() => setTrendingTab("tutorials")}>Tutorials</Button>
+            {/* Categories Card */}
+            <div className="bg-white rounded-xl shadow py-2 px-4">
+              <div className="flex items-center space-x-4">
+                <p className="text-sm text-black">Categories:</p>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant={trendingTab === "users" ? "default" : "outline"} onClick={() => setTrendingTab("users")}>Users</Button>
+                  <Button variant={trendingTab === "tools" ? "default" : "outline"} onClick={() => setTrendingTab("tools")}>Tools</Button>
+                  <Button variant={trendingTab === "uses" ? "default" : "outline"} onClick={() => setTrendingTab("uses")}>Uses</Button>
+                  <Button variant={trendingTab === "industries" ? "default" : "outline"} onClick={() => setTrendingTab("industries")}>Industries</Button>
+                  <Button variant={trendingTab === "professions" ? "default" : "outline"} onClick={() => setTrendingTab("professions")}>Professions</Button>
+                  <Button variant={trendingTab === "companies" ? "default" : "outline"} onClick={() => setTrendingTab("companies")}>Companies</Button>
+                  <Button variant={trendingTab === "projects" ? "default" : "outline"} onClick={() => setTrendingTab("projects")}>Projects</Button>
+                  <Button variant={trendingTab === "tutorials" ? "default" : "outline"} onClick={() => setTrendingTab("tutorials")}>Tutorials</Button>
+                </div>
+              </div>
             </div>
 
-            {trendingTab === "users" && (
+            {/* Content Cards */}
+            <div className="bg-white rounded-xl shadow p-6">
+              <h2 className="text-xl font-semibold mb-4">📈 Trending</h2>
               <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">👤 <strong>Amy Zhang</strong> (Product Manager, AI Tools) – 168h tracked</div>
-                <div className="bg-white p-4 rounded-xl shadow">👤 <strong>Malik Reyes</strong> (Developer, Generative AI) – 152h tracked</div>
-              </div>
-            )}
+                {trendingTab === "users" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>👤 <strong>Amy Zhang</strong> (Product Manager, AI Tools) – 168h tracked</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>👤 <strong>Malik Reyes</strong> (Developer, Generative AI) – 152h tracked</p>
+                    </div>
+                  </>
+                )}
 
-            {trendingTab === "tools" && (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">🔥 <strong>Perplexity.ai</strong> – 34% user growth this week</div>
-                <div className="bg-white p-4 rounded-xl shadow">🔥 <strong>Lovable.dev</strong> – 3x increase in time spent</div>
-              </div>
-            )}
+                {trendingTab === "tools" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🔥 <strong>Perplexity.ai</strong> – 34% user growth this week</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🔥 <strong>Lovable.dev</strong> – 3x increase in time spent</p>
+                    </div>
+                  </>
+                )}
 
-            {trendingTab === "uses" && (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">✍️ <strong>Scriptwriting with Claude</strong> – +65% activity</div>
-                <div className="bg-white p-4 rounded-xl shadow">📚 <strong>Research for podcasts</strong> – New top use case</div>
-              </div>
-            )}
+                {trendingTab === "uses" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>✍️ <strong>Scriptwriting with Claude</strong> – +65% activity</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>📚 <strong>Research for podcasts</strong> – New top use case</p>
+                    </div>
+                  </>
+                )}
 
-            {trendingTab === "portfolios" && (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">🎨 <strong>Emma Rivera's AI Moodboard Generator</strong> – 54 Cheers</div>
-                <div className="bg-white p-4 rounded-xl shadow">🎧 <strong>Andre Silva's Synthesia-powered interview series</strong> – Highly shared</div>
-              </div>
-            )}
+                {trendingTab === "projects" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🎨 <strong>Emma Rivera's AI Moodboard Generator</strong> – 54 Cheers</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🎧 <strong>Andre Silva's Synthesia-powered interview series</strong> – Highly shared</p>
+                    </div>
+                  </>
+                )}
 
-            {trendingTab === "industries" && (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">🎯 <strong>Go-to-Market (GTM)</strong> – 2.8x AI adoption rate</div>
-                <div className="bg-white p-4 rounded-xl shadow">📊 <strong>Product Management</strong> – 2.5x increase in AI tool usage</div>
-              </div>
-            )}
+                {trendingTab === "industries" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🎯 <strong>Go-to-Market (GTM)</strong> – 2.8x AI adoption rate</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>📊 <strong>Product Management</strong> – 2.5x increase in AI tool usage</p>
+                    </div>
+                  </>
+                )}
 
-            {trendingTab === "professions" && (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">📱 <strong>Digital Marketers</strong> – 3.2x AI tool engagement</div>
-                <div className="bg-white p-4 rounded-xl shadow">💼 <strong>Account Executives</strong> – 2.9x growth in AI usage</div>
-              </div>
-            )}
+                {trendingTab === "professions" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>📱 <strong>Digital Marketers</strong> – 3.2x AI tool engagement</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>💼 <strong>Account Executives</strong> – 2.9x growth in AI usage</p>
+                    </div>
+                  </>
+                )}
 
-            {trendingTab === "companies" && (
-              <div className="space-y-4">
-                <div className="bg-white p-4 rounded-xl shadow">🏢 <strong>Notion</strong> – 2,450 AI users tracking their usage</div>
-                <div className="bg-white p-4 rounded-xl shadow">🏢 <strong>HubSpot</strong> – 1,892 AI users tracking their usage</div>
+                {trendingTab === "companies" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🏢 <strong>Notion</strong> – 2,450 AI users tracking their usage</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🏢 <strong>HubSpot</strong> – 1,892 AI users tracking their usage</p>
+                    </div>
+                  </>
+                )}
+
+                {trendingTab === "tutorials" && (
+                  <>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>📚 <strong>Getting Started with Claude</strong> – 1.2k views this week</p>
+                    </div>
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <p>🎥 <strong>Advanced Perplexity Techniques</strong> – 850 saves</p>
+                    </div>
+                  </>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
       </main>
