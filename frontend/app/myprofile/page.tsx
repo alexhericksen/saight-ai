@@ -175,6 +175,7 @@ export default function MyProfile() {
                   <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
                     <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Industry Benchmarks:</h3>
+                    <p className="text-xs text-gray-400 mb-1">Become a top AI user in your field</p>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>Use at least 2 AI tools per week</li>
                       <li>Log 5+ hours in creation tools</li>
@@ -185,6 +186,7 @@ export default function MyProfile() {
                   <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
                     <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Usage Suggestions</h3>
+                    <p className="text-xs text-gray-400 mb-1">AI-powered tool & use suggestions based on your activity</p>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>Try Synthesia for video generation</li>
                       <li>Experiment with Midjourney for images</li>
@@ -195,6 +197,7 @@ export default function MyProfile() {
                   <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
                     <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Job Matches</h3>
+                    <p className="text-xs text-gray-400 mb-1">AI-powered job matches based on your activity</p>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>AI Product Manager at OpenAI</li>
                       <li>Machine Learning Lead at Google</li>
@@ -205,6 +208,7 @@ export default function MyProfile() {
                   <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
                     <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Recruiter Requests</h3>
+                    <p className="text-xs text-gray-400 mb-1">Recruiters interested in connecting</p>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>Jane Doe (OpenAI) - Interested in your profile</li>
                       <li>John Smith (Google) - Wants to connect</li>
@@ -227,7 +231,7 @@ export default function MyProfile() {
                     <h3 className="text-sm font-semibold">Projects</h3>
                     <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ upload</Button>
                   </div>
-                  <p className="text-xs text-gray-400 mb-1">showcase things you've built with AI</p>
+                  <p className="text-xs text-gray-400 mb-1">Showcase things you've built with AI</p>
                   <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                     <li>AI-powered Resume Builder</li>
                     <li>Chatbot for Customer Support</li>
@@ -241,7 +245,7 @@ export default function MyProfile() {
                     <h3 className="text-sm font-semibold">Tutorials</h3>
                     <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ upload</Button>
                   </div>
-                  <p className="text-xs text-gray-400 mb-1">show how you use AI</p>
+                  <p className="text-xs text-gray-400 mb-1">Show the world how you use AI</p>
                   <ul className="list-disc ml-4 text-sm text-blue-600 space-y-1">
                     <li><a href="#" className="hover:underline">How to automate emails with GPT-4</a></li>
                     <li><a href="#" className="hover:underline">Prompt engineering for beginners</a></li>
@@ -255,7 +259,7 @@ export default function MyProfile() {
                     <h3 className="text-sm font-semibold">Offer Services</h3>
                     <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ add</Button>
                   </div>
-                  <p className="text-xs text-gray-400 mb-1">offer coaching or consulting services</p>
+                  <p className="text-xs text-gray-400 mb-1">Offer Coaching or Consulting services</p>
                   <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                     <li>1:1 AI career coaching</li>
                     <li>Custom AI tool consulting</li>
@@ -266,6 +270,7 @@ export default function MyProfile() {
                 <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
                   <ProSticker>Pro</ProSticker>
                   <h3 className="text-sm font-semibold mb-2">Service Requests</h3>
+                  <p className="text-xs text-gray-400 mb-1">Coaching or Consulting service requests</p>
                   <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                     <li>Sarah (Acme Corp) - Interested in coaching</li>
                     <li>Mike (Beta Inc) - Needs AI consulting</li>
