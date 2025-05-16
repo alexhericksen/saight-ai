@@ -152,6 +152,7 @@ export default function Dashboard() {
             <div className="relative">
               <img src="/profile.png" className="h-32 w-32 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
               <div className="absolute inset-0 rounded-full border-2 border-gray-200/50 transform -rotate-1"></div>
+              <span className="absolute -bottom-2 right-0 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md">Pro</span>
             </div>
             <div className="flex flex-col justify-center">
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
@@ -191,7 +192,7 @@ export default function Dashboard() {
                 {/* Right Section: Remove heading, add gray cards */}
                 <div className="space-y-1">
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>🎓 Discipline</span>
+                    <span>🏢 Industry</span>
                     <span className="font-semibold">AI tech</span>
                     <span className="text-[10px] text-gray-500">#1 overall</span>
                   </div>
