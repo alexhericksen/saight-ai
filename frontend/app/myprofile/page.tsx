@@ -166,7 +166,8 @@ export default function MyProfile() {
                     <div className="flex-1 flex items-center justify-center text-gray-400">chart placeholder</div>
                   </div>
                   {/* Industry Benchmarks */}
-                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                    <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Industry Benchmarks:</h3>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>Use at least 2 AI tools per week</li>
@@ -175,8 +176,9 @@ export default function MyProfile() {
                     </ul>
                   </div>
                   {/* Suggestions */}
-                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
-                    <h3 className="text-sm font-semibold mb-2">Suggestions:</h3>
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                    <ProSticker>Pro</ProSticker>
+                    <h3 className="text-sm font-semibold mb-2">Usage Suggestions</h3>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>Try Synthesia for video generation</li>
                       <li>Experiment with Midjourney for images</li>
@@ -184,7 +186,8 @@ export default function MyProfile() {
                     </ul>
                   </div>
                   {/* Job Matches */}
-                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                    <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Job Matches</h3>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>AI Product Manager at OpenAI</li>
@@ -193,7 +196,8 @@ export default function MyProfile() {
                     </ul>
                   </div>
                   {/* Recruiter Requests */}
-                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                  <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                    <ProSticker>Pro</ProSticker>
                     <h3 className="text-sm font-semibold mb-2">Recruiter Requests</h3>
                     <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                       <li>Jane Doe (OpenAI) - Interested in your profile</li>
@@ -211,7 +215,8 @@ export default function MyProfile() {
               <h2 className="text-xl font-semibold mb-4">💼 AI Portfolio</h2>
               <div className="grid grid-cols-2 grid-rows-2 gap-4">
                 {/* Projects */}
-                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                  <ProSticker>unlimited with Pro</ProSticker>
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-sm font-semibold">Projects</h3>
                     <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ upload</Button>
@@ -224,7 +229,8 @@ export default function MyProfile() {
                   </ul>
                 </div>
                 {/* Tutorials */}
-                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                  <ProSticker>unlimited with Pro</ProSticker>
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-sm font-semibold">Tutorials</h3>
                     <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ upload</Button>
@@ -237,7 +243,8 @@ export default function MyProfile() {
                   </ul>
                 </div>
                 {/* Offer Services */}
-                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                  <ProSticker>Pro</ProSticker>
                   <div className="flex items-center justify-between mb-1">
                     <h3 className="text-sm font-semibold">Offer Services</h3>
                     <Button variant='outline' size='sm' className='px-2 py-0.5 text-xs'>+ add</Button>
@@ -250,7 +257,8 @@ export default function MyProfile() {
                   </ul>
                 </div>
                 {/* Service Requests */}
-                <div className="bg-gray-50 rounded-lg p-4 flex flex-col">
+                <div className="bg-gray-50 rounded-lg p-4 flex flex-col relative">
+                  <ProSticker>Pro</ProSticker>
                   <h3 className="text-sm font-semibold mb-2">Service Requests</h3>
                   <ul className="list-disc ml-4 text-sm text-gray-600 space-y-1">
                     <li>Sarah (Acme Corp) - Interested in coaching</li>
@@ -269,7 +277,10 @@ export default function MyProfile() {
                 <span className="text-sm font-medium text-gray-700 mr-2">Actions:</span>
                 <Button variant="outline" size="sm">Usage Settings</Button>
                 <Button variant="outline" size="sm">Add AI Tools</Button>
-                <Button variant="outline" size="sm">Import Usage</Button>
+                <div className="relative">
+                  <ProSticker>Pro</ProSticker>
+                  <Button variant="outline" size="sm" className="pl-8">Import Usage</Button>
+                </div>
               </div>
               {/* History Table Placeholder */}
               <div className="bg-white p-6 rounded-xl shadow">
@@ -350,3 +361,8 @@ function StatCard({ label, value, tools, tags }: StatCardProps) {
     </div>
   );
 }
+
+// Helper sticker badge component
+const ProSticker = ({ children }: { children: React.ReactNode }) => (
+  <span className="absolute -top-3 -left-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md z-10 select-none" style={{letterSpacing: '0.01em'}}>{children}</span>
+);
