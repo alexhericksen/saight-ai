@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building, Calendar } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
+import { SettingsDialog } from "@/components/settings-dialog";
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -18,6 +19,8 @@ export default function MyProfile() {
     { tag: "Research", duration: "1h" }
   ]);
   const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [settingsTab, setSettingsTab] = useState<"account" | "billing" | "industry">("account");
 
   return (
     <div className="flex min-h-screen">
@@ -66,7 +69,7 @@ export default function MyProfile() {
           </div>
         </div>
         <div className="space-y-4 flex items-center flex-col">
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
+          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}>
             <div className="w-5 flex justify-center">
               <Settings className="h-5 w-5" />
             </div>
@@ -134,17 +137,41 @@ export default function MyProfile() {
                 <div className="space-y-1">
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
                     <span>🏢 Industry</span>
-                    <span className="font-semibold">AI tech</span>
+                    <div className="flex items-center space-x-1">
+                      <span className="font-semibold">AI tech</span>
+                      <button 
+                        onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
+                        className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
+                      >
+                        <Pencil className="h-2.5 w-2.5 text-gray-500" />
+                      </button>
+                    </div>
                     <span className="text-[10px] text-gray-500">#1 overall</span>
                   </div>
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
                     <span>💻 Profession</span>
-                    <span className="font-semibold">Product Management</span>
+                    <div className="flex items-center space-x-1">
+                      <span className="font-semibold">Product Management</span>
+                      <button 
+                        onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
+                        className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
+                      >
+                        <Pencil className="h-2.5 w-2.5 text-gray-500" />
+                      </button>
+                    </div>
                     <span className="text-[10px] text-gray-500">#1 overall</span>
                   </div>
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
                     <span>💰 Company</span>
-                    <span className="font-semibold">Saight.ai</span>
+                    <div className="flex items-center space-x-1">
+                      <span className="font-semibold">Saight.ai</span>
+                      <button 
+                        onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
+                        className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
+                      >
+                        <Pencil className="h-2.5 w-2.5 text-gray-500" />
+                      </button>
+                    </div>
                     <span className="text-[10px] text-gray-500">#1 overall</span>
                   </div>
                 </div>
@@ -369,6 +396,11 @@ export default function MyProfile() {
       <TrackToolDialog 
         open={isTrackToolOpen} 
         onOpenChange={setIsTrackToolOpen} 
+      />
+      <SettingsDialog
+        open={isSettingsOpen}
+        onOpenChange={setIsSettingsOpen}
+        initialTab={settingsTab}
       />
     </div>
   );
