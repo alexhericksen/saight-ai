@@ -23,11 +23,29 @@ interface SettingsDialogProps {
 const industryOptions = ["AI tech", "Healthcare", "Finance", "Education", "Retail"]
 const professionOptions = ["Product Management", "Software Engineer", "Data Scientist", "Designer", "Marketer"]
 
+// Timezone options
+const timezoneOptions = [
+  "Pacific Time (PT)",
+  "Mountain Time (MT)",
+  "Central Time (CT)",
+  "Eastern Time (ET)",
+  "Atlantic Time (AT)",
+  "Greenwich Mean Time (GMT)",
+  "Central European Time (CET)",
+  "Eastern European Time (EET)",
+  "India Standard Time (IST)",
+  "China Standard Time (CST)",
+  "Japan Standard Time (JST)",
+  "Australian Eastern Time (AET)",
+  "New Zealand Standard Time (NZST)"
+]
+
 export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: SettingsDialogProps) {
   const [activeTab, setActiveTab] = useState(initialTab)
   const [industry, setIndustry] = useState("AI tech")
   const [profession, setProfession] = useState("Product Management")
   const [company, setCompany] = useState("Saight.ai")
+  const [timezone, setTimezone] = useState("Pacific Time (PT)")
 
   // Sync activeTab with initialTab when dialog opens or initialTab changes
   useEffect(() => {
@@ -76,6 +94,30 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
             <div className="space-y-2">
               <Label htmlFor="password">Change Password</Label>
               <Input id="password" type="password" placeholder="Enter new password" />
+            </div>
+            <div className="space-y-2">
+              <Label>My Location</Label>
+              <div className="flex space-x-2">
+                <div className="w-1/2">
+                  <Input placeholder="City" />
+                </div>
+                <div className="w-1/2">
+                  <Input placeholder="State" />
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label>My Timezone</Label>
+              <Select value={timezone} onValueChange={setTimezone}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select timezone" />
+                </SelectTrigger>
+                <SelectContent>
+                  {timezoneOptions.map((option) => (
+                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
         )}

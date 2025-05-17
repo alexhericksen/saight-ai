@@ -7,6 +7,7 @@ import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 import { SettingsDialog } from "@/components/settings-dialog";
+import { ShareDropdown } from "@/components/ui/share-dropdown";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -158,13 +159,34 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col justify-center">
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
-              <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
+              <div className="flex items-center space-x-1">
+                <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
+                <button 
+                  onClick={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
+                  className="p-0.5 hover:bg-gray-200 rounded-full transition-colors"
+                >
+                  <Pencil className="h-2.5 w-2.5 text-gray-500" />
+                </button>
+              </div>
               <p className="text-xs text-gray-700">🎂 joined May 2025</p>
               <div className="flex items-center space-x-3 mt-2">
                 <div className="flex flex-col items-center">
                   <ToggleSwitch checked={true} onChange={() => {}} label="public" />
                 </div>
-                <Button variant="default" size="sm" className="w-fit px-7 py-0.5">Share</Button>
+                <ShareDropdown 
+                  onCopyUrl={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    // You might want to add a toast notification here
+                  }}
+                  onGeneratePdf={() => {
+                    // Implement PDF generation
+                    console.log("Generate PDF");
+                  }}
+                  onShareLinkedIn={() => {
+                    // Implement LinkedIn sharing
+                    console.log("Share to LinkedIn");
+                  }}
+                />
               </div>
             </div>
           </div>
