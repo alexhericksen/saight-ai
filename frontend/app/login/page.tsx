@@ -4,10 +4,12 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
+import { useUser } from '@/hooks/useUser';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { handleSignIn } = useUser();
 
   const signInWithGoogle = async () => {
     try {
@@ -21,6 +23,9 @@ export default function LoginPage() {
       });
       
       if (error) throw error;
+
+      // After successful sign-in, handle user metadata
+      await handleSignIn();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to sign in with Google');
     } finally {

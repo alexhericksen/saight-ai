@@ -8,6 +8,8 @@ import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Build
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
+import { ProfileHeader } from "@/components/profile-header";
+import { useUser } from "@/hooks/useUser";
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -17,6 +19,7 @@ export default function Dashboard() {
   const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"account" | "billing" | "industry">("account");
+  const { user } = useUser();
 
   useEffect(() => {
     const fetchTodayStats = async () => {
@@ -159,16 +162,7 @@ export default function Dashboard() {
             </div>
             <div className="flex flex-col justify-center">
               <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
-              <div className="flex items-center space-x-1">
-                <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
-                <button 
-                  onClick={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
-                  className="p-0.5 hover:bg-gray-200 rounded-full transition-colors"
-                >
-                  <Pencil className="h-2.5 w-2.5 text-gray-500" />
-                </button>
-              </div>
-              <p className="text-xs text-gray-700">🎂 joined May 2025</p>
+              <ProfileHeader />
               <div className="flex items-center space-x-3 mt-2">
                 <div className="flex flex-col items-center">
                   <ToggleSwitch checked={true} onChange={() => {}} label="public" />
@@ -176,14 +170,11 @@ export default function Dashboard() {
                 <ShareDropdown 
                   onCopyUrl={() => {
                     navigator.clipboard.writeText(window.location.href);
-                    // You might want to add a toast notification here
                   }}
                   onGeneratePdf={() => {
-                    // Implement PDF generation
                     console.log("Generate PDF");
                   }}
                   onShareLinkedIn={() => {
-                    // Implement LinkedIn sharing
                     console.log("Share to LinkedIn");
                   }}
                 />
@@ -218,7 +209,7 @@ export default function Dashboard() {
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
                     <span>🏢 Industry</span>
                     <div className="flex items-center space-x-1">
-                      <span className="font-semibold">AI tech</span>
+                      <span className="font-semibold">{user?.user_metadata?.industry || 'AI tech'}</span>
                       <button 
                         onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
                         className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
@@ -231,7 +222,7 @@ export default function Dashboard() {
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
                     <span>💻 Profession</span>
                     <div className="flex items-center space-x-1">
-                      <span className="font-semibold">Product Management</span>
+                      <span className="font-semibold">{user?.user_metadata?.profession || 'Product Management'}</span>
                       <button 
                         onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
                         className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
@@ -244,7 +235,7 @@ export default function Dashboard() {
                   <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
                     <span>💰 Company</span>
                     <div className="flex items-center space-x-1">
-                      <span className="font-semibold">Saight.ai</span>
+                      <span className="font-semibold">{user?.user_metadata?.company || 'Saight.ai'}</span>
                       <button 
                         onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
                         className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"

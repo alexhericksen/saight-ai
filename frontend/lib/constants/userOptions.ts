@@ -1,0 +1,45 @@
+export const TIMEZONE_OPTIONS = [
+  { value: 'America/New_York', label: 'Eastern Time (ET)' },
+  { value: 'America/Chicago', label: 'Central Time (CT)' },
+  { value: 'America/Denver', label: 'Mountain Time (MT)' },
+  { value: 'America/Los_Angeles', label: 'Pacific Time (PT)' },
+  { value: 'America/Anchorage', label: 'Alaska Time (AKT)' },
+  { value: 'Pacific/Honolulu', label: 'Hawaii Time (HT)' },
+  { value: 'America/Phoenix', label: 'Arizona Time (MT)' },
+];
+
+export const INDUSTRY_OPTIONS = [
+  { value: 'arts_entertainment', label: 'Arts/Entertainment' },
+  { value: 'construction_manufacturing', label: 'Construction/Manufacturing' },
+  { value: 'consumer_goods', label: 'Consumer Goods' },
+  { value: 'education', label: 'Education' },
+  { value: 'energy', label: 'Energy' },
+  { value: 'finance_insurance', label: 'Finance/Insurance' },
+  { value: 'food_beverage', label: 'Food & Beverage' },
+  { value: 'healthcare', label: 'Healthcare' },
+  { value: 'information', label: 'Information' },
+  { value: 'legal', label: 'Legal' },
+  { value: 'recreation_hospitality', label: 'Recreation/Hospitality' },
+  { value: 'real_estate', label: 'Real Estate' },
+  { value: 'retail', label: 'Retail' },
+  { value: 'technology', label: 'Technology' },
+  { value: 'other', label: 'Other' },
+];
+
+export const PROFESSION_OPTIONS = [
+  { label: 'Accounting', value: 'accounting' },
+  { label: 'Cloud', value: 'cloud' },
+  { label: 'Data', value: 'data' },
+  { label: 'Design', value: 'design' },
+  { label: 'Finance', value: 'finance' },
+  { label: 'HR', value: 'hr' },
+  { label: 'IT', value: 'it' },
+  { label: 'Management', value: 'management' },
+  { label: 'Marketing', value: 'marketing' },
+  { label: 'Operations', value: 'operations' },
+  { label: 'Product', value: 'product' },
+  { label: 'Sales', value: 'sales' },
+  { label: 'Security', value: 'security' },
+  { label: 'Strategy', value: 'strategy' },
+  { label: 'Other', value: 'other' },
+]; 

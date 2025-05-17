@@ -11,6 +11,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { useUser } from "@/hooks/useUser"
+import { TIMEZONE_OPTIONS, INDUSTRY_OPTIONS, PROFESSION_OPTIONS } from "@/lib/constants/userOptions"
+import { toast } from "sonner"
 
 // Define the props interface
 interface SettingsDialogProps {
@@ -19,38 +22,53 @@ interface SettingsDialogProps {
   initialTab?: "account" | "billing" | "industry"
 }
 
-// Example options for dropdowns
-const industryOptions = ["AI tech", "Healthcare", "Finance", "Education", "Retail"]
-const professionOptions = ["Product Management", "Software Engineer", "Data Scientist", "Designer", "Marketer"]
-
-// Timezone options
-const timezoneOptions = [
-  "Pacific Time (PT)",
-  "Mountain Time (MT)",
-  "Central Time (CT)",
-  "Eastern Time (ET)",
-  "Atlantic Time (AT)",
-  "Greenwich Mean Time (GMT)",
-  "Central European Time (CET)",
-  "Eastern European Time (EET)",
-  "India Standard Time (IST)",
-  "China Standard Time (CST)",
-  "Japan Standard Time (JST)",
-  "Australian Eastern Time (AET)",
-  "New Zealand Standard Time (NZST)"
-]
-
 export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: SettingsDialogProps) {
+  const { user, updateUserSettings } = useUser();
   const [activeTab, setActiveTab] = useState(initialTab)
-  const [industry, setIndustry] = useState("AI tech")
-  const [profession, setProfession] = useState("Product Management")
-  const [company, setCompany] = useState("Saight.ai")
-  const [timezone, setTimezone] = useState("Pacific Time (PT)")
+  const [isSaving, setIsSaving] = useState(false)
+  
+  // Form state
+  const [formData, setFormData] = useState({
+    city: "",
+    state: "",
+    timezone: "",
+    industry: "",
+    profession: "",
+    company: "",
+  })
+
+  // Load user data when dialog opens
+  useEffect(() => {
+    if (open && user) {
+      setFormData({
+        city: user.user_metadata?.city || "",
+        state: user.user_metadata?.state || "",
+        timezone: user.user_metadata?.timezone || "",
+        industry: user.user_metadata?.industry || "",
+        profession: user.user_metadata?.profession || "",
+        company: user.user_metadata?.company || "",
+      })
+    }
+  }, [open, user])
 
   // Sync activeTab with initialTab when dialog opens or initialTab changes
   useEffect(() => {
     if (open) setActiveTab(initialTab)
   }, [open, initialTab])
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true)
+      await updateUserSettings(formData)
+      toast.success("Settings saved successfully")
+      onOpenChange(false)
+    } catch (error) {
+      toast.error("Failed to save settings")
+      console.error("Error saving settings:", error)
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -89,32 +107,46 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" placeholder="user@example.com" />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Change Password</Label>
-              <Input id="password" type="password" placeholder="Enter new password" />
+              <Input 
+                id="email" 
+                type="email" 
+                value={user?.email || ""} 
+                disabled 
+              />
             </div>
             <div className="space-y-2">
               <Label>My Location</Label>
               <div className="flex space-x-2">
                 <div className="w-1/2">
-                  <Input placeholder="City" />
+                  <Input 
+                    placeholder="City" 
+                    value={formData.city}
+                    onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                  />
                 </div>
                 <div className="w-1/2">
-                  <Input placeholder="State" />
+                  <Input 
+                    placeholder="State" 
+                    value={formData.state}
+                    onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
+                  />
                 </div>
               </div>
             </div>
             <div className="space-y-2">
               <Label>My Timezone</Label>
-              <Select value={timezone} onValueChange={setTimezone}>
+              <Select 
+                value={formData.timezone} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, timezone: value }))}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select timezone" />
                 </SelectTrigger>
                 <SelectContent>
-                  {timezoneOptions.map((option) => (
-                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                  {TIMEZONE_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -138,13 +170,18 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
             {/* Industry Dropdown */}
             <div className="space-y-2">
               <Label>Industry</Label>
-              <Select value={industry} onValueChange={setIndustry}>
+              <Select 
+                value={formData.industry} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, industry: value }))}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
                 <SelectContent>
-                  {industryOptions.map((option) => (
-                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                  {INDUSTRY_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -152,13 +189,18 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
             {/* Profession Dropdown */}
             <div className="space-y-2">
               <Label>Profession</Label>
-              <Select value={profession} onValueChange={setProfession}>
+              <Select 
+                value={formData.profession} 
+                onValueChange={(value) => setFormData(prev => ({ ...prev, profession: value }))}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select profession" />
                 </SelectTrigger>
                 <SelectContent>
-                  {professionOptions.map((option) => (
-                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                  {PROFESSION_OPTIONS.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -167,8 +209,8 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
             <div className="space-y-2">
               <Label>Company</Label>
               <Input 
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
+                value={formData.company}
+                onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
                 className="w-full"
               />
             </div>
@@ -181,11 +223,16 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
             variant="outline"
             className="flex-1"
             onClick={() => onOpenChange(false)}
+            disabled={isSaving}
           >
             Cancel
           </Button>
-          <Button className="flex-1">
-            Save & Exit
+          <Button 
+            className="flex-1"
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save & Exit"}
           </Button>
         </div>
       </DialogContent>
