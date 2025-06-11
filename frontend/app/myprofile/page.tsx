@@ -468,7 +468,6 @@ function StatCard({ label, value, tools, tags }: StatCardProps) {
     </div>
   );
 }
-
 // Helper sticker badge component
 const ProSticker = ({ children }: { children: React.ReactNode }) => (
   <span className="absolute -top-3 -left-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md z-10 select-none" style={{letterSpacing: '0.01em'}}>{children}</span>
@@ -478,3 +477,4 @@ const ProSticker = ({ children }: { children: React.ReactNode }) => (
 const EditIcon = () => (
   <Pencil className="h-3 w-3 text-gray-400 hover:text-gray-600 cursor-pointer ml-1" />
 );
+
