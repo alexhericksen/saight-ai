@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
+import { type Tool, getUserTools, removeTool } from '@/lib/tools';
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -22,6 +23,38 @@ export default function MyProfile() {
   const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"account" | "billing" | "industry">("account");
+  const [historyView, setHistoryView] = useState<"usage" | "tools" | "import">("usage");
+  const [trackedTools, setTrackedTools] = useState<Tool[]>([]);
+  const [selectedTools, setSelectedTools] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    const fetchTools = async () => {
+      const tools = await getUserTools();
+      setTrackedTools(tools);
+    };
+    fetchTools();
+  }, []);
+
+  const handleRemoveTool = async () => {
+    const toolIds = Array.from(selectedTools);
+    if (toolIds.length === 0) return;
+
+    const success = await Promise.all(toolIds.map(id => removeTool(id)));
+    if (success.every(Boolean)) {
+      setTrackedTools(trackedTools.filter(tool => !selectedTools.has(tool.id)));
+      setSelectedTools(new Set());
+    }
+  };
+
+  const toggleToolSelection = (toolId: string) => {
+    const newSelection = new Set(selectedTools);
+    if (newSelection.has(toolId)) {
+      newSelection.delete(toolId);
+    } else {
+      newSelection.add(toolId);
+    }
+    setSelectedTools(newSelection);
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -210,9 +243,9 @@ export default function MyProfile() {
 
         {/* Tab Navigation */}
         <div className="flex space-x-4 mb-6">
+          <Button variant={activeTab === "history" ? "default" : "outline"} onClick={() => setActiveTab("history")}>AI Usage</Button>
           <Button variant={activeTab === "profile" ? "default" : "outline"} onClick={() => setActiveTab("profile")}>AI Scorecard</Button>
           <Button variant={activeTab === "portfolio" ? "default" : "outline"} onClick={() => setActiveTab("portfolio")}>AI Portfolio</Button>
-          <Button variant={activeTab === "history" ? "default" : "outline"} onClick={() => setActiveTab("history")}>Usage History</Button>
         </div>
 
         {/* Tab Content */}
@@ -351,65 +384,116 @@ export default function MyProfile() {
               {/* Actions Card */}
               <div className="bg-white p-3 rounded-xl shadow flex items-center space-x-4 mb-2">
                 <span className="text-sm font-medium text-gray-700 mr-2">Actions:</span>
-                <Button variant="outline" size="sm" onClick={() => setIsTrackToolOpen(true)}>Manage Tools</Button>
+                <Button variant={historyView === "usage" ? "default" : "outline"} size="sm" onClick={() => setHistoryView("usage")}>View Usage History</Button>
+                <Button variant={historyView === "tools" ? "default" : "outline"} size="sm" onClick={() => setHistoryView("tools")}>Manage Tracked Tools</Button>
                 <div className="relative flex items-center justify-center">
                   <ProSticker>Pro</ProSticker>
-                  <Button variant="outline" size="sm" className="w-full flex justify-center">Import Usage</Button>
+                  <Button variant={historyView === "import" ? "default" : "outline"} size="sm" className="w-full flex justify-center items-center space-x-2" onClick={() => setHistoryView("import")}> <Plus className="h-4 w-4 mr-1" /> Import Usage </Button>
                 </div>
               </div>
-              {/* History Table */}
-              <div className="bg-white p-6 rounded-xl shadow">
-                <div className="mb-4">
-                  <h2 className="text-xl font-semibold mb-4 text-left">⏰ My Usage History</h2>
+              {/* Conditional Views */}
+              {historyView === "usage" && (
+                <div className="bg-white p-6 rounded-xl shadow">
+                  <div className="mb-4">
+                    <h2 className="text-xl font-semibold mb-4 text-left">⏰ My Usage History</h2>
+                  </div>
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-gray-500">
+                        <th className="pb-2 text-left">
+                          <button type="button" className="hover:underline">🗓️ Date</button>
+                        </th>
+                        <th className="pb-2 text-center">
+                          <button type="button" className="hover:underline w-full">🛠️ Tool Name</button>
+                        </th>
+                        <th className="pb-2 text-center">
+                          <button type="button" className="hover:underline w-full">⏰ Duration</button>
+                        </th>
+                        <th className="pb-2 text-center">
+                          <button type="button" className="hover:underline w-full">🏷️ Use Category</button>
+                        </th>
+                        <th className="pb-2 text-center">
+                          <button type="button" className="hover:underline w-full">🏷️🏷️ Use Detail</button>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-t">
+                        <td className="py-2 text-left">May 14</td>
+                        <td className="py-2 text-center">ChatGPT</td>
+                        <td className="py-2 text-center">47m</td>
+                        <td className="py-2 flex justify-center items-center">
+                          <span>Work</span>
+                          <EditIcon />
+                        </td>
+                        <td className="py-2 flex justify-center items-center">
+                          {/* Only one pencil in Use Category, none here for now */}
+                        </td>
+                      </tr>
+                      <tr className="border-t">
+                        <td className="py-2 text-left">May 13</td>
+                        <td className="py-2 text-center">Perplexity</td>
+                        <td className="py-2 text-center">1h 20m</td>
+                        <td className="py-2 flex justify-center items-center">
+                          <span>Work</span>
+                          <EditIcon />
+                        </td>
+                        <td className="py-2 flex justify-center items-center">
+                          {/* Only one pencil in Use Category, none here for now */}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-gray-500">
-                      <th className="pb-2 text-left">
-                        <button type="button" className="hover:underline">🗓️ Date</button>
-                      </th>
-                      <th className="pb-2 text-center">
-                        <button type="button" className="hover:underline w-full">🛠️ Tool Name</button>
-                      </th>
-                      <th className="pb-2 text-center">
-                        <button type="button" className="hover:underline w-full">⏰ Duration</button>
-                      </th>
-                      <th className="pb-2 text-center">
-                        <button type="button" className="hover:underline w-full">🏷️ Use Category</button>
-                      </th>
-                      <th className="pb-2 text-center">
-                        <button type="button" className="hover:underline w-full">🏷️🏷️ Use Detail</button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-t">
-                      <td className="py-2 text-left">May 14</td>
-                      <td className="py-2 text-center">ChatGPT</td>
-                      <td className="py-2 text-center">47m</td>
-                      <td className="py-2 flex justify-center items-center">
-                        <span>Work</span>
-                        <EditIcon />
-                      </td>
-                      <td className="py-2 flex justify-center items-center">
-                        {/* Only one pencil in Use Category, none here for now */}
-                      </td>
-                    </tr>
-                    <tr className="border-t">
-                      <td className="py-2 text-left">May 13</td>
-                      <td className="py-2 text-center">Perplexity</td>
-                      <td className="py-2 text-center">1h 20m</td>
-                      <td className="py-2 flex justify-center items-center">
-                        <span>Work</span>
-                        <EditIcon />
-                      </td>
-                      <td className="py-2 flex justify-center items-center">
-                        {/* Only one pencil in Use Category, none here for now */}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              )}
+              {historyView === "tools" && (
+                <div className="bg-white p-6 rounded-xl shadow">
+                  <div className="flex items-center gap-4 mb-4">
+                    <h2 className="text-xl font-semibold">🛠️ Manage Tracked Tools</h2>
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" onClick={() => setIsTrackToolOpen(true)}>+ Track New</Button>
+                      <Button 
+                        size="sm" 
+                        onClick={handleRemoveTool}
+                        disabled={selectedTools.size === 0}
+                        className="bg-red-700 hover:bg-red-800 text-white border border-red-800 shadow"
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </div>
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="text-gray-500">
+                        <th className="pb-2 text-left">Tool: Domain</th>
+                        <th className="pb-2 text-center">Tool: Name</th>
+                        <th className="pb-2 text-center">Use: Category</th>
+                        <th className="pb-2 text-center">Use: Detail</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {trackedTools.map((tool) => (
+                        <tr 
+                          key={tool.id} 
+                          className={`border-t cursor-pointer hover:bg-gray-50 ${selectedTools.has(tool.id) ? 'bg-gray-50' : ''}`}
+                          onClick={() => toggleToolSelection(tool.id)}
+                        >
+                          <td className="py-2 text-left">{tool.domain}</td>
+                          <td className="py-2 text-center">{tool.name}</td>
+                          <td className="py-2 text-center">{tool.category || '-'}</td>
+                          <td className="py-2 text-center">{tool.detail || '-'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {historyView === "import" && (
+                <div className="bg-white p-6 rounded-xl shadow">
+                  <h2 className="text-xl font-semibold mb-4 text-left">📥 Import Usage (Pro)</h2>
+                  <p className="text-gray-500">Import your usage data from other platforms. (Coming soon)</p>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -417,7 +501,15 @@ export default function MyProfile() {
 
       <TrackToolDialog 
         open={isTrackToolOpen} 
-        onOpenChange={setIsTrackToolOpen} 
+        onOpenChange={setIsTrackToolOpen}
+        onToolAdded={() => {
+          // Refresh the tracked tools list
+          const fetchTools = async () => {
+            const tools = await getUserTools();
+            setTrackedTools(tools);
+          };
+          fetchTools();
+        }}
       />
       <SettingsDialog
         open={isSettingsOpen}
