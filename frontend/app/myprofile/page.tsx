@@ -385,7 +385,7 @@ export default function MyProfile() {
               <div className="bg-white p-3 rounded-xl shadow flex items-center space-x-4 mb-2">
                 <span className="text-sm font-medium text-gray-700 mr-2">Actions:</span>
                 <Button variant={historyView === "usage" ? "default" : "outline"} size="sm" onClick={() => setHistoryView("usage")}>View Usage History</Button>
-                <Button variant={historyView === "tools" ? "default" : "outline"} size="sm" onClick={() => setHistoryView("tools")}>Manage Tracked Tools</Button>
+                <Button variant={historyView === "tools" ? "default" : "outline"} size="sm" onClick={() => setHistoryView("tools")}>View Tracked Tools</Button>
                 <div className="relative flex items-center justify-center">
                   <ProSticker>Pro</ProSticker>
                   <Button variant={historyView === "import" ? "default" : "outline"} size="sm" className="w-full flex justify-center items-center space-x-2" onClick={() => setHistoryView("import")}> <Plus className="h-4 w-4 mr-1" /> Import Usage </Button>
@@ -449,7 +449,7 @@ export default function MyProfile() {
               {historyView === "tools" && (
                 <div className="bg-white p-6 rounded-xl shadow">
                   <div className="flex items-center gap-4 mb-4">
-                    <h2 className="text-xl font-semibold">🛠️ Manage Tracked Tools</h2>
+                    <h2 className="text-xl font-semibold">🛠️ My Tracked Tools</h2>
                     <div className="flex items-center gap-2">
                       <Button variant="outline" size="sm" onClick={() => setIsTrackToolOpen(true)}>+ Track New</Button>
                       <Button 
@@ -465,10 +465,10 @@ export default function MyProfile() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-gray-500">
-                        <th className="pb-2 text-left">Tool: Domain</th>
-                        <th className="pb-2 text-center">Tool: Name</th>
-                        <th className="pb-2 text-center">Use: Category</th>
-                        <th className="pb-2 text-center">Use: Detail</th>
+                        <th className="pb-2 text-left">🌐 Tool Domain</th>
+                        <th className="pb-2 text-center">🛠️ Tool Name</th>
+                        <th className="pb-2 text-center">🏷️ Use Category</th>
+                        <th className="pb-2 text-center">🏷️🏷️ Use Detail</th>
                       </tr>
                     </thead>
                     <tbody>
