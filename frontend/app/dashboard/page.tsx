@@ -329,24 +329,26 @@ function StatCard({ label, value, tools, tags }: StatCardProps) {
       <p className="mb-2">{label}</p>
       {value && <p className="text-xl font-semibold text-black">{value}</p>}
       {tools && tools.length > 0 && (
-        <div className="space-y-1 mt-2">
+        <div className="space-y-2 mt-2">
           {tools.map((t) => (
-            <div key={t.tool} className="flex items-center justify-center space-x-2">
-              <img
-                src={`/logos/${t.tool}.png`}
-                alt={t.tool}
-                className="h-5 w-5 rounded-sm"
-              />
-              <span className="text-sm">{t.tool.replace(".com", "")}</span>
+            <div key={t.tool} className="bg-gray-50 rounded-lg p-2 flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <img
+                  src={`/logos/${t.tool}.png`}
+                  alt={t.tool}
+                  className="h-5 w-5 rounded-sm"
+                />
+                <span className="text-sm">{t.tool.replace(".com", "")}</span>
+              </div>
               <span className="text-xs text-gray-500">{t.duration}</span>
             </div>
           ))}
         </div>
       )}
       {tags && tags.length > 0 && (
-        <div className="space-y-1 mt-2">
+        <div className="space-y-2 mt-2">
           {tags.map((t) => (
-            <div key={t.tag} className="flex items-center justify-center space-x-2">
+            <div key={t.tag} className="bg-gray-50 rounded-lg p-2 flex items-center justify-between">
               <span className="text-sm font-medium">{t.tag}</span>
               <span className="text-xs text-gray-500">{t.duration}</span>
             </div>
