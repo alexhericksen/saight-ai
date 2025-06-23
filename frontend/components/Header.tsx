@@ -20,13 +20,15 @@ export default function Header({
   return (
     <div className="relative flex items-start border-b pb-6 mb-6 w-full">
       {/* Left: Profile Summary (1/3) */}
-      <ProfileSummary
-        name={name}
-        location={location}
-        joinDate={joinDate}
-        avatarUrl={avatarUrl}
-        onEdit={onEditProfile}
-      />
+      <div className="w-1/3 min-w-[320px]">
+        <ProfileSummary
+          name={name}
+          location={location}
+          joinDate={joinDate}
+          avatarUrl={avatarUrl}
+          onEdit={onEditProfile}
+        />
+      </div>
       {/* Center/Right: Baseball Card (2/3) */}
       <div className="w-2/3 flex justify-start">
         <BaseballCard onEditField={onEditField} />

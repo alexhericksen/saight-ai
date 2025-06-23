@@ -14,7 +14,7 @@ import BaseballCard from '@/components/BaseballCard';
 import Header from '@/components/Header';
 
 export default function MyProfile() {
-  const [activeTab, setActiveTab] = useState("profile");
+  const [activeTab, setActiveTab] = useState("history");
   const [timeToday] = useState("2h 15m");
   const [topToolsToday] = useState([
     { tool: "ChatGPT", duration: "1h 30m" },
