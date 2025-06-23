@@ -8,6 +8,8 @@ import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Build
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
+import BaseballCard from '@/components/BaseballCard';
+import Header from '@/components/Header';
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -16,7 +18,7 @@ export default function Dashboard() {
   const [timeToday, setTimeToday] = useState("0m");
   const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-  const [settingsTab, setSettingsTab] = useState<"account" | "billing" | "industry">("account");
+  const [settingsTab, setSettingsTab] = useState<'account' | 'billing' | 'industry'>('account');
 
   useEffect(() => {
     const fetchTodayStats = async () => {
@@ -148,123 +150,18 @@ export default function Dashboard() {
       </aside>
 
       <main className="flex-1 p-6 bg-gray-100 text-black">
-        {/* Profile Header Section */}
-        <div className="relative flex items-start border-b pb-6 mb-6">
-          {/* Left: Profile Info */}
-          <div className="flex items-center space-x-6 w-1/3 min-w-[320px]">
-            <div className="relative">
-              <img src="/profile.png" className="h-32 w-32 rounded-full border-2 border-white shadow-lg transform rotate-1" alt="Profile" />
-              <div className="absolute inset-0 rounded-full border-2 border-gray-200/50 transform -rotate-1"></div>
-              <span className="absolute -bottom-2 right-0 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md">Pro</span>
-            </div>
-            <div className="flex flex-col justify-center">
-              <h1 className="text-2xl font-semibold">Alex Ericksen</h1>
-              <div className="flex items-center space-x-1">
-                <p className="text-xs text-gray-700">📍 Lehi, Utah</p>
-                <button 
-                  onClick={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
-                  className="p-0.5 hover:bg-gray-200 rounded-full transition-colors"
-                >
-                  <Pencil className="h-2.5 w-2.5 text-gray-500" />
-                </button>
-              </div>
-              <p className="text-xs text-gray-700">🎂 joined May 2025</p>
-              <div className="flex items-center space-x-3 mt-2">
-                <div className="flex flex-col items-center">
-                  <ToggleSwitch checked={true} onChange={() => {}} label="public" />
-                </div>
-                <ShareDropdown 
-                  onCopyUrl={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    // You might want to add a toast notification here
-                  }}
-                  onGeneratePdf={() => {
-                    // Implement PDF generation
-                    console.log("Generate PDF");
-                  }}
-                  onShareLinkedIn={() => {
-                    // Implement LinkedIn sharing
-                    console.log("Share to LinkedIn");
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          {/* Center: Baseball Card */}
-          <div className="w-2/3 flex justify-start">
-            <div className="bg-white rounded-xl shadow p-4 w-full max-w-2xl text-sm">
-              <div className="text-center text-xs font-medium m-0 p-0 leading-tight">⚾️ Baseball Card ⚾️</div>
-              <div className="grid grid-cols-2 gap-2">
-                {/* Left Section: Remove heading, add gray cards */}
-                <div className="space-y-1">
-                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>⏰ Total AI Usage</span>
-                    <span className="font-semibold">41h 36m</span>
-                    <span className="text-[10px] text-gray-500">#1 overall</span>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>🛠️ Avg Tools/Day</span>
-                    <span className="font-semibold">6 tools</span>
-                    <span className="text-[10px] text-gray-500">#1 overall</span>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>📈 Expertise</span>
-                    <span className="font-semibold">6 contributions</span>
-                    <span className="text-[10px] text-gray-500">#1 overall</span>
-                  </div>
-                </div>
-                {/* Right Section: Remove heading, add gray cards */}
-                <div className="space-y-1">
-                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>🏢 Industry</span>
-                    <div className="flex items-center space-x-1">
-                      <span className="font-semibold">AI tech</span>
-                      <button 
-                        onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
-                        className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
-                      >
-                        <Pencil className="h-2.5 w-2.5 text-gray-500" />
-                      </button>
-                    </div>
-                    <span className="text-[10px] text-gray-500">#1 overall</span>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>💻 Profession</span>
-                    <div className="flex items-center space-x-1">
-                      <span className="font-semibold">Product Management</span>
-                      <button 
-                        onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
-                        className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
-                      >
-                        <Pencil className="h-2.5 w-2.5 text-gray-500" />
-                      </button>
-                    </div>
-                    <span className="text-[10px] text-gray-500">#1 overall</span>
-                  </div>
-                  <div className="bg-gray-50 rounded-lg p-2 flex justify-between items-center text-xs">
-                    <span>💰 Company</span>
-                    <div className="flex items-center space-x-1">
-                      <span className="font-semibold">Saight.ai</span>
-                      <button 
-                        onClick={() => { setIsSettingsOpen(true); setSettingsTab("industry"); }}
-                        className="p-0.5 hover:bg-gray-200 rounded-full transition-colors ml-1"
-                      >
-                        <Pencil className="h-2.5 w-2.5 text-gray-500" />
-                      </button>
-                    </div>
-                    <span className="text-[10px] text-gray-500">#1 overall</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* Right: Notifications Icon - absolutely positioned */}
-          <div className="absolute right-0 top-0 flex items-start justify-end w-24" style={{ top: 0 }}>
-            <div className="bg-white rounded-full shadow p-2 flex items-center justify-center">
-              <Bell className="h-5 w-5 text-gray-700" />
-            </div>
-          </div>
-        </div>
+        {/* Header Section */}
+        <Header
+          name="Alex Ericksen"
+          location="Lehi, Utah"
+          joinDate="May 2025"
+          avatarUrl="/profile.png"
+          onEditProfile={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
+          onEditField={(field) => {
+            setIsSettingsOpen(true);
+            setSettingsTab("industry");
+          }}
+        />
 
         {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
