@@ -1,6 +1,8 @@
 // Script to populate the available_tools table with initial data
 // Run this with: node scripts/populate-tools.js
 
+require('dotenv').config({ path: '.env.local' });
+
 const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
