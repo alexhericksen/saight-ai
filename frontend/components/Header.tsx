@@ -18,9 +18,9 @@ export default function Header({
   onEditField?: (field: 'industry' | 'profession' | 'company') => void;
 }) {
   return (
-    <div className="relative flex items-start border-b pb-6 mb-6 w-full">
-      {/* Left: Profile Summary (1/3) */}
-      <div className="w-1/3 min-w-[320px]">
+    <div className="relative flex items-start border-b pb-6 mb-6 w-full h-[220px]">
+      {/* Left: Profile Summary (1/3), vertically centered */}
+      <div className="w-1/3 min-w-[320px] flex items-center h-full">
         <ProfileSummary
           name={name}
           location={location}

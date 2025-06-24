@@ -2,6 +2,16 @@ import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil } from "lucide-react";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
 
+// Consistent Pro badge styling
+const ProSticker = ({ children }: { children: React.ReactNode }) => (
+  <span
+    className="flex items-center justify-center absolute bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md z-10 select-none"
+    style={{ bottom: '0', right: '0.5rem', letterSpacing: '0.01em' }}
+  >
+    {children}
+  </span>
+);
+
 export default function ProfileSummary({
   name = "Alex Ericksen",
   location = "Lehi, Utah",
@@ -24,8 +34,8 @@ export default function ProfileSummary({
           className="h-32 w-32 rounded-full border-4 border-white shadow-lg object-cover"
           alt="Profile"
         />
-        {/* Pro badge floating over lower right */}
-        <span className="absolute bottom-2 right-2 bg-white border border-gray-200 rounded-full px-3 py-1 text-xs text-gray-400 font-semibold shadow-md z-10" style={{letterSpacing: '0.01em'}}>Pro</span>
+        {/* ProSticker floating over lower right */}
+        <ProSticker>Pro</ProSticker>
       </div>
       {/* Profile Info */}
       <div className="flex flex-col justify-center flex-1">
