@@ -3,6 +3,7 @@ CREATE TABLE available_tools (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   domain TEXT NOT NULL,
   name TEXT NOT NULL,
+  logo_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
 );

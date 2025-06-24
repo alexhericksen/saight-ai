@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "populate-tools": "node scripts/populate-tools.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.13",

@@ -4,6 +4,7 @@ export type Tool = {
   id: string;
   domain: string;
   name: string;
+  logo_url?: string;
   category?: string;
   detail?: string;
 };
@@ -12,6 +13,7 @@ export type AvailableTool = {
   id: string;
   domain: string;
   name: string;
+  logo_url?: string;
 };
 
 export async function getAvailableTools(): Promise<AvailableTool[]> {
@@ -38,7 +40,8 @@ export async function getUserTools(): Promise<Tool[]> {
       available_tools (
         id,
         domain,
-        name
+        name,
+        logo_url
       )
     `)
     .order('created_at', { ascending: false });
@@ -48,16 +51,17 @@ export async function getUserTools(): Promise<Tool[]> {
     return [];
   }
 
-  return (data || []).map(tool => ({
+  return (data || []).map((tool: any) => ({
     id: tool.available_tools.id,
     domain: tool.available_tools.domain,
     name: tool.available_tools.name,
+    logo_url: tool.available_tools.logo_url,
     category: tool.category,
     detail: tool.detail
   }));
 }
 
-export async function addTool(tool: { domain: string; name: string; category?: string; detail?: string }): Promise<Tool | null> {
+export async function addTool(tool: { domain: string; name: string; logo_url?: string; category?: string; detail?: string }): Promise<Tool | null> {
   // First, check if the tool already exists
   const { data: existingTool } = await supabase
     .from('available_tools')
@@ -74,7 +78,7 @@ export async function addTool(tool: { domain: string; name: string; category?: s
     // If it doesn't exist, create it
     const { data: newTool, error: insertError } = await supabase
       .from('available_tools')
-      .insert([{ domain: tool.domain, name: tool.name }])
+      .insert([{ domain: tool.domain, name: tool.name, logo_url: tool.logo_url }])
       .select()
       .single();
 
@@ -104,6 +108,7 @@ export async function addTool(tool: { domain: string; name: string; category?: s
     id: toolId,
     domain: tool.domain,
     name: tool.name,
+    logo_url: tool.logo_url,
     category: tool.category,
     detail: tool.detail
   };

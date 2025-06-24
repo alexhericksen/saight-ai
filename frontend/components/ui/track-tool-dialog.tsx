@@ -22,6 +22,7 @@ export function TrackToolDialog({
   const [newTool, setNewTool] = useState({
     domain: '',
     name: '',
+    logo_url: '',
     category: '',
     detail: ''
   });
@@ -46,7 +47,8 @@ export function TrackToolDialog({
       if (tool) {
         const addedTool = await addTool({
           domain: tool.domain,
-          name: tool.name
+          name: tool.name,
+          logo_url: tool.logo_url
         });
         if (addedTool) {
           setTrackedTools([...trackedTools, addedTool]);
@@ -55,6 +57,7 @@ export function TrackToolDialog({
           setNewTool({
             domain: '',
             name: '',
+            logo_url: '',
             category: '',
             detail: ''
           });
@@ -65,6 +68,7 @@ export function TrackToolDialog({
       const addedTool = await addTool({
         domain: newTool.domain,
         name: newTool.name,
+        logo_url: newTool.logo_url || undefined,
         category: newTool.category || undefined,
         detail: newTool.detail || undefined
       });
@@ -73,13 +77,15 @@ export function TrackToolDialog({
         setAvailableTools([...availableTools, {
           id: addedTool.id,
           domain: addedTool.domain,
-          name: addedTool.name
+          name: addedTool.name,
+          logo_url: addedTool.logo_url
         }]);
         // Reset form
         setSelectedTool('');
         setNewTool({
           domain: '',
           name: '',
+          logo_url: '',
           category: '',
           detail: ''
         });
@@ -118,7 +124,17 @@ export function TrackToolDialog({
                     <SelectContent>
                       {availableTools.map((tool) => (
                         <SelectItem key={tool.id} value={tool.id}>
-                          {tool.name}
+                          <div className="flex items-center space-x-2">
+                            <img
+                              src={tool.logo_url || `/logos/${tool.domain.replace(/\./g, '_')}.png`}
+                              alt={tool.name}
+                              className="h-4 w-4 rounded-sm object-contain"
+                              onError={(e) => {
+                                e.currentTarget.src = "/logos/default-ai.png";
+                              }}
+                            />
+                            <span>{tool.name}</span>
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -137,6 +153,12 @@ export function TrackToolDialog({
                     placeholder="Name (concise but descriptive): example, 'ChatGPT web'"
                     value={newTool.name}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTool({ ...newTool, name: e.target.value })}
+                  />
+                  <Input
+                    className="w-full"
+                    placeholder="Logo URL (optional): https://example.com/logo.png"
+                    value={newTool.logo_url}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewTool({ ...newTool, logo_url: e.target.value })}
                   />
                 </div>
               </div>

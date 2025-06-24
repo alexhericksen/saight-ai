@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Saight AI - Dynamic Tools System
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This system allows users to dynamically add and track AI tools through a database-driven approach, replacing the previous hardcoded domain list.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Features
+
+- **Dynamic Tool Management**: Tools are stored in Supabase database instead of hardcoded lists
+- **Logo Support**: Each tool can have a high-quality logo image
+- **User Customization**: Users can add new tools through the UI
+- **Extension Integration**: Chrome extension fetches tracked domains from the API
+- **Real-time Updates**: Tools list updates automatically when new tools are added
+
+## Database Schema
+
+### `available_tools` table
+- `id`: UUID primary key
+- `domain`: Tool domain (e.g., "chatgpt.com")
+- `name`: Tool display name (e.g., "ChatGPT")
+- `logo_url`: URL to tool logo image
+- `created_at`: Timestamp
+- `updated_at`: Timestamp
+
+### `user_tools` table
+- `id`: UUID primary key
+- `user_id`: References auth.users
+- `tool_id`: References available_tools
+- `category`: Tool category (e.g., "creation", "research")
+- `detail`: Tool detail (e.g., "writing", "coding")
+- `created_at`: Timestamp
+- `updated_at`: Timestamp
+
+## Setup Instructions
+
+1. **Run Database Migrations**:
+   ```bash
+   # Apply the new migration that adds logo_url column
+   supabase db push
+   ```
+
+2. **Populate Initial Tools**:
+   ```bash
+   # Set your Supabase environment variables
+   export NEXT_PUBLIC_SUPABASE_URL="your-supabase-url"
+   export SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+   
+   # Run the population script
+   npm run populate-tools
+   ```
+
+3. **Update Extension**:
+   The Chrome extension will now fetch tracked domains from the API instead of using hardcoded lists.
+
+## API Endpoints
+
+### `GET /api/tracked-domains`
+Returns a list of all tracked domains for the Chrome extension.
+
+Response:
+```json
+{
+  "domains": ["chatgpt.com", "claude.ai", "cursor.com"]
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Adding a New Tool
+1. Go to "My Profile" → "AI Usage" → "View Tracked Tools"
+2. Click "Track New" button
+3. Either select an existing tool or add a new one
+4. Fill in domain, name, and optional logo URL
+5. Save the tool
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Extension Behavior
+- Extension fetches tracked domains on install and every hour
+- Automatically tracks usage on any domain in the database
+- No need to update extension code when adding new tools
 
-## Learn More
+## File Structure
 
-To learn more about Next.js, take a look at the following resources:
+- `supabase/migrations/`: Database schema changes
+- `frontend/lib/tools.ts`: Tool management functions
+- `frontend/pages/api/tracked-domains.ts`: API endpoint for extension
+- `frontend/components/ui/track-tool-dialog.tsx`: UI for adding tools
+- `extension/background.js`: Updated to fetch from API
+- `frontend/scripts/populate-tools.js`: Database population script
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Benefits
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Scalability**: No need to update code when new AI tools emerge
+2. **User Control**: Users can track any tool they want
+3. **Visual Appeal**: High-quality logos for each tool
+4. **Maintainability**: Centralized tool management
+5. **Real-time**: Changes reflect immediately across the system

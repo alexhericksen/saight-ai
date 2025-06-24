@@ -7,9 +7,8 @@ import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Build
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
-import { type Tool, getUserTools, removeTool } from '@/lib/tools';
+import { type Tool, getUserTools, removeTool, getAvailableTools } from '@/lib/tools';
 import { fetchRecentSessions, groupSessionsByToolAndWindow, fetchTotalUsageDuration } from '@/lib/utils';
-import { trackedTools as extensionTrackedTools } from '@/lib/tracked-tools';
 import BaseballCard from '@/components/BaseballCard';
 import Header from '@/components/Header';
 
@@ -30,6 +29,8 @@ export default function MyProfile() {
   const [historyView, setHistoryView] = useState<"usage" | "tools" | "import">("usage");
   const [groupedSessions, setGroupedSessions] = useState<any[]>([]);
   const [totalUsageSeconds, setTotalUsageSeconds] = useState(0);
+  const [userTools, setUserTools] = useState<Tool[]>([]);
+  const [availableTools, setAvailableTools] = useState<Tool[]>([]);
 
   useEffect(() => {
     const fetchSessions = async () => {
@@ -44,6 +45,18 @@ export default function MyProfile() {
       setTotalUsageSeconds(total);
     };
     fetchTotal();
+
+    const fetchTools = async () => {
+      const tools = await getUserTools();
+      setUserTools(tools);
+    };
+    fetchTools();
+
+    const fetchAvailableTools = async () => {
+      const tools = await getAvailableTools();
+      setAvailableTools(tools);
+    };
+    fetchAvailableTools();
   }, []);
 
   return (
@@ -312,21 +325,52 @@ export default function MyProfile() {
                 <div className="bg-white p-6 rounded-xl shadow">
                   <div className="flex items-center gap-4 mb-4">
                     <h2 className="text-xl font-semibold">🛠️ My Tracked Tools</h2>
+                    <span className="text-sm text-gray-500">({availableTools.length} tools available)</span>
                   </div>
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-gray-500">
-                        <th className="pb-2 text-left">🌐 Tool Domain</th>
-                        <th className="pb-2 text-center">🛠️ Tool Name</th>
+                        <th className="pb-2 text-left">🖼️ Logo</th>
+                        <th className="pb-2 text-left">🛠️ Tool Name</th>
+                        <th className="pb-2 text-center">🌐 Domain</th>
+                        <th className="pb-2 text-center">📊 Status</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {extensionTrackedTools.map((tool, idx) => (
-                        <tr key={tool.domain} className="border-t">
-                          <td className="py-2 text-left">{tool.domain}</td>
-                          <td className="py-2 text-center">{tool.name}</td>
-                        </tr>
-                      ))}
+                      {availableTools.length === 0 && (
+                        <tr><td colSpan={4} className="text-center py-4 text-gray-400">No tools available. Add some tools to get started!</td></tr>
+                      )}
+                      {availableTools.map((tool, idx) => {
+                        const isTracked = userTools.some(userTool => userTool.id === tool.id);
+                        return (
+                          <tr key={tool.id} className="border-t">
+                            <td className="py-3 text-left">
+                              <img
+                                src={tool.logo_url || `/logos/${tool.domain.replace(/\./g, '_')}.png`}
+                                alt={tool.name}
+                                className="h-8 w-8 rounded-sm object-contain"
+                                onError={(e) => {
+                                  // Fallback to default logo if image fails to load
+                                  e.currentTarget.src = "/logos/default-ai.png";
+                                }}
+                              />
+                            </td>
+                            <td className="py-3 text-left font-medium">{tool.name}</td>
+                            <td className="py-3 text-center text-gray-600">{tool.domain}</td>
+                            <td className="py-3 text-center">
+                              {isTracked ? (
+                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                  ✅ Tracked
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                  ⏸️ Not Tracked
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 </div>
@@ -346,10 +390,14 @@ export default function MyProfile() {
         open={isTrackToolOpen} 
         onOpenChange={setIsTrackToolOpen}
         onToolAdded={() => {
-          // Refresh the tracked tools list
+          // Refresh both user tools and available tools
           const fetchTools = async () => {
-            const tools = await getUserTools();
-            // setTrackedTools(tools);
+            const [userToolsData, availableToolsData] = await Promise.all([
+              getUserTools(),
+              getAvailableTools()
+            ]);
+            setUserTools(userToolsData);
+            setAvailableTools(availableToolsData);
           };
           fetchTools();
         }}

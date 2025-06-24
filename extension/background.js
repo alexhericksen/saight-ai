@@ -1,16 +1,31 @@
 let activeTabId = null;
 let activeStartTime = null;
 let activeDomain = null;
+let trackedDomains = []; // Will be populated from API
 
-const trackedDomains = [
-  "chatgpt.com", "claude.ai", "cursor.com", "grok.com",
-  "replit.com", "superhuman.com", "lovable.dev",
-  "perplexity.ai", "linear.app", "bolt.net", "notion.com", "notion.so"
-];
+// Function to fetch tracked domains from the API
+async function fetchTrackedDomains() {
+  try {
+    const response = await fetch("https://saight-ai-live.vercel.app/api/tracked-domains");
+    if (response.ok) {
+      const data = await response.json();
+      trackedDomains = data.domains || [];
+      console.log("✅ Fetched tracked domains:", trackedDomains);
+    } else {
+      console.error("❌ Failed to fetch tracked domains");
+    }
+  } catch (error) {
+    console.error("🚫 Error fetching tracked domains:", error);
+  }
+}
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("✅ Saight-AI Tracker installed and active.");
+  fetchTrackedDomains(); // Fetch domains on install
 });
+
+// Fetch domains every hour to stay updated
+setInterval(fetchTrackedDomains, 60 * 60 * 1000);
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
   if (activeTabId !== null && activeDomain) {
