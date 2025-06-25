@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
-import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building } from "lucide-react";
+import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building, Trash2 } from "lucide-react";
 import { TrackToolDialog } from "@/components/ui/track-tool-dialog";
 import { SettingsDialog } from "@/components/settings-dialog";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
@@ -58,6 +58,28 @@ export default function MyProfile() {
     };
     fetchAvailableTools();
   }, []);
+
+  const handleToggleTracking = async (tool: Tool) => {
+    const isTracked = userTools.some(userTool => userTool.id === tool.id);
+    if (isTracked) {
+      const success = await removeTool(tool.id);
+      if (success) {
+        setUserTools(userTools.filter(userTool => userTool.id !== tool.id));
+      }
+    } else {
+      // You may want to use addTool here if you want to support toggling on
+      // For now, just refresh tools
+      const tools = await getUserTools();
+      setUserTools(tools);
+    }
+  };
+
+  const handleRemoveTool = async (tool: Tool) => {
+    const success = await removeTool(tool.id);
+    if (success) {
+      setUserTools(userTools.filter(userTool => userTool.id !== tool.id));
+    }
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -323,50 +345,62 @@ export default function MyProfile() {
               )}
               {historyView === "tools" && (
                 <div className="bg-white p-6 rounded-xl shadow">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-2 mb-4">
                     <h2 className="text-xl font-semibold">🛠️ My Tracked Tools</h2>
-                    <span className="text-sm text-gray-500">({availableTools.length} tools available)</span>
+                    <Button 
+                      onClick={() => setIsTrackToolOpen(true)}
+                      variant="outline"
+                      className="flex items-center space-x-2"
+                    >
+                      <Plus className="h-4 w-4" />
+                      <span>Track New</span>
+                    </Button>
+                    <span className="text-sm text-gray-500 ml-2">({availableTools.length} tools available)</span>
                   </div>
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="text-gray-500">
-                        <th className="pb-2 text-left">🖼️ Logo</th>
-                        <th className="pb-2 text-left">🛠️ Tool Name</th>
-                        <th className="pb-2 text-center">🌐 Domain</th>
-                        <th className="pb-2 text-center">📊 Status</th>
+                        <th className="pb-2 text-left w-10"></th>
+                        <th className="pb-2 text-left w-28 min-w-[90px]">🛠️ Tool Name</th>
+                        <th className="pb-2 text-center w-24 min-w-[80px]">🌐 Domain</th>
+                        <th className="pb-2 text-center w-24 min-w-[72px]">📊 Tracking Status</th>
+                        <th className="pb-2 text-center w-16">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {availableTools.length === 0 && (
-                        <tr><td colSpan={4} className="text-center py-4 text-gray-400">No tools available. Add some tools to get started!</td></tr>
+                        <tr><td colSpan={5} className="text-center py-2 text-gray-400">No tools available. Add some tools to get started!</td></tr>
                       )}
                       {availableTools.map((tool, idx) => {
                         const isTracked = userTools.some(userTool => userTool.id === tool.id);
                         return (
                           <tr key={tool.id} className="border-t">
-                            <td className="py-3 text-left">
+                            <td className="py-2 text-left">
                               <img
                                 src={tool.logo_url || `/logos/${tool.domain.replace(/\./g, '_')}.png`}
                                 alt={tool.name}
-                                className="h-8 w-8 rounded-sm object-contain"
+                                className="h-5 w-5 rounded-sm object-contain"
                                 onError={(e) => {
-                                  // Fallback to default logo if image fails to load
                                   e.currentTarget.src = "/logos/default-ai.png";
                                 }}
                               />
                             </td>
-                            <td className="py-3 text-left font-medium">{tool.name}</td>
-                            <td className="py-3 text-center text-gray-600">{tool.domain}</td>
-                            <td className="py-3 text-center">
-                              {isTracked ? (
-                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                  ✅ Tracked
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                  ⏸️ Not Tracked
-                                </span>
-                              )}
+                            <td className="py-2 text-left font-medium">{tool.name}</td>
+                            <td className="py-2 text-center text-gray-600">{tool.domain}</td>
+                            <td className="py-2 text-center">
+                              <ToggleSwitch
+                                checked={isTracked}
+                                onChange={() => handleToggleTracking(tool)}
+                              />
+                            </td>
+                            <td className="py-2 text-center">
+                              <button
+                                onClick={() => handleRemoveTool(tool)}
+                                className="text-gray-400 hover:text-red-500 transition-colors"
+                                title="Remove tool"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </button>
                             </td>
                           </tr>
                         );
