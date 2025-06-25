@@ -1,3 +1,5 @@
+const API_BASE_URL = "http://localhost:3000"; // Use Vercel URL for production
+
 let activeTabId = null;
 let activeStartTime = null;
 let activeDomain = null;
@@ -6,7 +8,7 @@ let trackedDomains = []; // Will be populated from API
 // Function to fetch tracked domains from the API
 async function fetchTrackedDomains() {
   try {
-    const response = await fetch("https://saight-ai-live.vercel.app/api/tracked-domains");
+    const response = await fetch(`${API_BASE_URL}/api/tracked-domains`);
     if (response.ok) {
       const data = await response.json();
       trackedDomains = data.domains || [];
@@ -67,7 +69,7 @@ function saveSession(domain, duration) {
     chrome.storage.local.set({ sessionLogs: updatedLogs });
   });
 
-  fetch("https://saight-ai-live.vercel.app/api/track-session", {
+  fetch(`${API_BASE_URL}/api/track-session`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
