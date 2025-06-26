@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getAvailableTools, getUserTools, addTool, removeTool, type Tool, type AvailableTool } from '@/lib/tools';
+import ToolLogo from '@/components/ToolLogo';
 
 export function TrackToolDialog({ 
   open, 
@@ -125,14 +126,7 @@ export function TrackToolDialog({
                       {availableTools.map((tool) => (
                         <SelectItem key={tool.id} value={tool.id}>
                           <div className="flex items-center space-x-2">
-                            <img
-                              src={tool.logo_url || `/logos/${tool.domain.replace(/\./g, '_')}.png`}
-                              alt={tool.name}
-                              className="h-4 w-4 rounded-sm object-contain"
-                              onError={(e) => {
-                                e.currentTarget.src = "/logos/default-ai.png";
-                              }}
-                            />
+                            <ToolLogo domain={tool.domain} name={tool.name} size="sm" />
                             <span>{tool.name}</span>
                           </div>
                         </SelectItem>

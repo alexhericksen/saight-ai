@@ -11,6 +11,7 @@ import { type Tool, getUserTools, removeTool, getAvailableTools } from '@/lib/to
 import { fetchRecentSessions, groupSessionsByToolAndWindow, fetchTotalUsageDuration } from '@/lib/utils';
 import BaseballCard from '@/components/BaseballCard';
 import Header from '@/components/Header';
+import ToolLogo from '@/components/ToolLogo';
 
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("history");
@@ -376,14 +377,7 @@ export default function MyProfile() {
                         return (
                           <tr key={tool.id} className="border-t">
                             <td className="py-2 text-left">
-                              <img
-                                src={tool.logo_url || `/logos/${tool.domain.replace(/\./g, '_')}.png`}
-                                alt={tool.name}
-                                className="h-5 w-5 rounded-sm object-contain"
-                                onError={(e) => {
-                                  e.currentTarget.src = "/logos/default-ai.png";
-                                }}
-                              />
+                              <ToolLogo domain={tool.domain} name={tool.name} size="md" />
                             </td>
                             <td className="py-2 text-left font-medium">{tool.name}</td>
                             <td className="py-2 text-center text-gray-600">{tool.domain}</td>
