@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil, Home, User, Globe, Settings, Gift, Bell, Plus, BarChart2, Building, Search } from "lucide-react";
@@ -9,87 +9,43 @@ import { SettingsDialog } from "@/components/settings-dialog";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
 import BaseballCard from '@/components/BaseballCard';
 import Header from '@/components/Header';
+import { useUser } from '@/lib/useUser';
+import { useRouter } from 'next/navigation';
+import Sidebar from '@/components/Sidebar';
 
 export default function ExplorePage() {
+  const user = useUser();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("feed");
   const [trendingTab, setTrendingTab] = useState("users");
   const [isTrackToolOpen, setIsTrackToolOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settingsTab, setSettingsTab] = useState<"account" | "billing" | "industry">("account");
 
+  useEffect(() => {
+    if (user === undefined) return; // Still loading
+    if (user === null) {
+      router.replace('/login');
+    }
+  }, [user, router]);
+
+  if (user === undefined) return null; // Or a loading spinner
+  if (!user) return null;
+
+  // Use Google profile info if available, otherwise fallback
+  const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "User";
+  const googleAvatar = user.user_metadata?.avatar_url || "/profile.png";
+
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-52 bg-white text-black border-r p-6 flex flex-col justify-between">
-        <div>
-          {/* Main Menu Items */}
-          <div className="space-y-4 flex items-center flex-col pt-6">
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="w-5 flex justify-center">
-                <Home className="h-5 w-5" />
-              </div>
-              <span>Dashboard</span>
-            </a>
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="w-5 flex justify-center">
-                <User className="h-5 w-5" />
-              </div>
-              <span>My Profile</span>
-            </a>
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <div className="w-5 flex justify-center">
-                <Globe className="h-5 w-5" />
-              </div>
-              <span>Explore</span>
-            </a>
-            <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors relative">
-              <div className="w-5 flex justify-center">
-                <Building className="h-5 w-5" />
-              </div>
-              <span>My Company</span>
-              <span className="absolute -bottom-2 -right-3 bg-white border border-gray-200 rounded-full px-2 py-0.5 text-xs text-gray-400 font-semibold shadow-md">Pro</span>
-            </a>
-          </div>
-          {/* Centered section for Track New only */}
-          <div className="flex flex-col items-center mt-16 mb-8">
-            <button 
-              onClick={() => setIsTrackToolOpen(true)}
-              className="flex items-center justify-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors w-full"
-            >
-              <div className="w-5 flex justify-center">
-                <Plus className="h-5 w-5" />
-              </div>
-              <span>Track New</span>
-            </button>
-          </div>
-        </div>
-        <div className="space-y-4 flex items-center flex-col">
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors" onClick={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}>
-            <div className="w-5 flex justify-center">
-              <Settings className="h-5 w-5" />
-            </div>
-            <span>Settings</span>
-          </a>
-          <a href="#" className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors">
-            <div className="w-5 flex justify-center">
-              <Gift className="h-5 w-5" />
-            </div>
-            <span>Refer</span>
-          </a>
-          <div className="text-center">
-            <p className="text-xs text-gray-500 mb-2">ai usage provided by</p>
-            <img src="/logo.png" alt="Saight logo" className="h-7 w-auto mx-auto" />
-          </div>
-        </div>
-      </aside>
-
+      <Sidebar onTrackNew={() => setIsTrackToolOpen(true)} onSettings={() => setIsSettingsOpen(true)} />
       <main className="flex-1 p-6 bg-gray-100 text-black">
         {/* Header Section */}
         <Header
-          name="Alex Ericksen"
+          name={displayName}
           location="Lehi, Utah"
           joinDate="May 2025"
-          avatarUrl="/profile.png"
+          avatarUrl={googleAvatar}
           onEditProfile={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
           onEditField={(field) => {
             setIsSettingsOpen(true);
