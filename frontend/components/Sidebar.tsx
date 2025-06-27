@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, User, Globe, Building, Settings, Gift, Plus, LogOut } from "lucide-react";
 import LogoutButton from "./LogoutButton";
+import { supabase } from "@/lib/supabase";
 
 export default function Sidebar({ onTrackNew, onSettings }: { onTrackNew: () => void; onSettings: () => void }) {
   const pathname = usePathname();
@@ -68,7 +69,7 @@ export default function Sidebar({ onTrackNew, onSettings }: { onTrackNew: () => 
         </a>
         <button
           onClick={async () => {
-            await fetch('/api/auth/logout', { method: 'POST' });
+            await supabase.auth.signOut();
             router.replace('/login');
           }}
           className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors w-full justify-center"

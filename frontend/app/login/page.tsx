@@ -22,7 +22,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-xl shadow p-8 flex flex-col items-center w-full max-w-md">
         <img src="/logo.png" alt="Saight logo" className="h-12 w-auto mb-6" />
         <h1 className="text-2xl font-bold mb-2 text-gray-900">Welcome to Saight</h1>
-        <p className="text-gray-500 mb-6 text-center">Sign in with Google to access your AI dashboard, profile, and more.</p>
+        <p className="text-gray-500 mb-6 text-center">Track your AI usage and Share it with the world</p>
         <LoginButton />
       </div>
     </div>
