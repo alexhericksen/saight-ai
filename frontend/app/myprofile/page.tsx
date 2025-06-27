@@ -16,6 +16,7 @@ import { useUser } from '@/lib/useUser';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import { supabase } from '@/lib/supabase';
+import { getToolDisplayName } from '@/lib/tool-logos';
 
 export default function MyProfile() {
   const user = useUser();
@@ -307,7 +308,7 @@ export default function MyProfile() {
                       {groupedSessions.map((group, idx) => (
                         <tr className="border-t" key={idx}>
                           <td className="py-2 text-left">{new Date(group.start).toLocaleDateString()}</td>
-                          <td className="py-2 text-center">{group.tool}</td>
+                          <td className="py-2 text-center">{getToolDisplayName(group.tool)}</td>
                           <td className="py-2 text-center">{formatDuration(group.totalDuration)}</td>
                           <td className="py-2 text-center">{group.sessions[0]?.tag_category || '-'}</td>
                           <td className="py-2 text-center">{group.sessions[0]?.tag_detail || '-'}</td>
