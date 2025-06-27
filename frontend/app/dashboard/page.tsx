@@ -104,7 +104,10 @@ export default function Dashboard() {
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar onTrackNew={() => {}} onSettings={() => {}} />
+      <Sidebar
+        onTrackNew={() => setIsTrackToolOpen(true)}
+        onSettings={() => { setIsSettingsOpen(true); setSettingsTab('account'); }}
+      />
       <main className="flex-1 p-6 bg-gray-100 text-black">
         {/* Header Section */}
         <Header
