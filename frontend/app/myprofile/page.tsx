@@ -408,6 +408,7 @@ export default function MyProfile() {
         open={isSettingsOpen}
         onOpenChange={setIsSettingsOpen}
         initialTab={settingsTab}
+        user={user}
       />
     </div>
   );

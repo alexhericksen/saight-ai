@@ -11,12 +11,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import type { User } from '@supabase/supabase-js'
 
 // Define the props interface
 interface SettingsDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   initialTab?: "account" | "billing" | "industry"
+  user?: User | null
 }
 
 // Example options for dropdowns
@@ -40,7 +42,7 @@ const timezoneOptions = [
   "New Zealand Standard Time (NZST)"
 ]
 
-export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: SettingsDialogProps) {
+export function SettingsDialog({ open, onOpenChange, initialTab = "account", user }: SettingsDialogProps) {
   const [activeTab, setActiveTab] = useState(initialTab)
   const [industry, setIndustry] = useState("AI tech")
   const [profession, setProfession] = useState("Product Management")
@@ -88,12 +90,24 @@ export function SettingsDialog({ open, onOpenChange, initialTab = "account" }: S
         {activeTab === "account" && (
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email Address</Label>
-              <Input id="email" type="email" placeholder="user@example.com" />
+              <Label htmlFor="email" className="text-gray-500">Email Address</Label>
+              <Input 
+                id="email" 
+                type="email" 
+                value={user?.email || ""} 
+                disabled 
+                className="bg-gray-100 text-gray-600 cursor-not-allowed"
+              />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Change Password</Label>
-              <Input id="password" type="password" placeholder="Enter new password" />
+              <Label htmlFor="password" className="text-gray-500">Change Password</Label>
+              <Input 
+                id="password" 
+                type="password" 
+                placeholder="Password managed by Google" 
+                disabled 
+                className="bg-gray-100 text-gray-600 cursor-not-allowed"
+              />
             </div>
             <div className="space-y-2">
               <Label>My Location</Label>

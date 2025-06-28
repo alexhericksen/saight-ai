@@ -235,6 +235,7 @@ export default function ExplorePage() {
         open={isSettingsOpen}
         onOpenChange={setIsSettingsOpen}
         initialTab={settingsTab}
+        user={user}
       />
     </div>
   );

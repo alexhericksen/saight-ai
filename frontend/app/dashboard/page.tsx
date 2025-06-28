@@ -167,6 +167,7 @@ export default function Dashboard() {
         open={isSettingsOpen}
         onOpenChange={setIsSettingsOpen}
         initialTab={settingsTab}
+        user={user}
       />
     </div>
   );
