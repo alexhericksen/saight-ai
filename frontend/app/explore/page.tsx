@@ -55,8 +55,8 @@ export default function ExplorePage() {
 
         {/* Explore Tab Navigation */}
         <div className="flex space-x-4 mb-6">
-          <Button variant={activeTab === "trending" ? "default" : "outline"} onClick={() => setActiveTab("trending")}>Explore Trending</Button>
           <Button variant={activeTab === "feed" ? "default" : "outline"} onClick={() => setActiveTab("feed")}>Feed</Button>
+          <Button variant={activeTab === "trending" ? "default" : "outline"} onClick={() => setActiveTab("trending")}>Explore</Button>
         </div>
 
         {/* Feed Tab */}
