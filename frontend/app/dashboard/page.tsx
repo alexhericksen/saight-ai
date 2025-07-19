@@ -13,6 +13,7 @@ import Header from '@/components/Header';
 import { useUser } from '@/lib/useUser';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
+import { formatJoinDate } from '@/lib/utils';
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState('daily');
@@ -101,6 +102,12 @@ export default function Dashboard() {
   // Use Google profile info if available, otherwise fallback
   const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "User";
   const googleAvatar = user.user_metadata?.avatar_url || "/profile.png";
+  const joinDate = user.created_at ? formatJoinDate(user.created_at) : "Unknown";
+  
+  // Check for custom avatar in user metadata
+  const customAvatar = user.user_metadata?.avatar_url && user.user_metadata.avatar_url.startsWith('data:image') 
+    ? user.user_metadata.avatar_url 
+    : null;
 
   return (
     <div className="flex min-h-screen">
@@ -113,8 +120,8 @@ export default function Dashboard() {
         <Header
           name={displayName}
           location="Lehi, Utah"
-          joinDate="May 2025"
-          avatarUrl={googleAvatar}
+          joinDate={joinDate}
+          avatarUrl={customAvatar || googleAvatar}
           onEditProfile={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
           onEditField={(field) => {
             setIsSettingsOpen(true);

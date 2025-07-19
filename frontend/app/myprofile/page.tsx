@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import { supabase } from '@/lib/supabase';
 import { getToolDisplayName } from '@/lib/tool-logos';
+import { formatJoinDate } from '@/lib/utils';
 
 export default function MyProfile() {
   const user = useUser();
@@ -103,7 +104,13 @@ export default function MyProfile() {
   // Use Google profile info if available, otherwise fallback
   const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email || "User";
   const googleAvatar = user.user_metadata?.avatar_url || "/profile.png";
-  const avatarUrl = customAvatar || googleAvatar;
+  const joinDate = user.created_at ? formatJoinDate(user.created_at) : "Unknown";
+  
+  // Check for custom avatar in user metadata
+  const customAvatarFromMetadata = user.user_metadata?.avatar_url && user.user_metadata.avatar_url.startsWith('data:image') 
+    ? user.user_metadata.avatar_url 
+    : null;
+  const avatarUrl = customAvatar || customAvatarFromMetadata || googleAvatar;
 
   // Handler for custom avatar upload with persistence
   const handleAvatarChange = async (newAvatarUrl: string) => {
@@ -127,7 +134,7 @@ export default function MyProfile() {
         <Header
           name={displayName}
           location="Lehi, Utah"
-          joinDate="May 2025"
+          joinDate={joinDate}
           avatarUrl={avatarUrl}
           onEditProfile={() => { setIsSettingsOpen(true); setSettingsTab("account"); }}
           onEditField={(field) => {

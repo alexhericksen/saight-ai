@@ -31,34 +31,48 @@ export async function getAvailableTools(): Promise<AvailableTool[]> {
 }
 
 export async function getUserTools(): Promise<Tool[]> {
-  const { data, error } = await supabase
-    .from('user_tools')
-    .select(`
-      id,
-      category,
-      detail,
-      available_tools (
-        id,
-        domain,
-        name,
-        logo_url
-      )
-    `)
-    .order('created_at', { ascending: false });
+  try {
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.log('No authenticated user found');
+      return [];
+    }
 
-  if (error) {
-    console.error('Error fetching user tools:', error);
+    const { data, error } = await supabase
+      .from('user_tools')
+      .select(`
+        id,
+        category,
+        detail,
+        available_tools (
+          id,
+          domain,
+          name,
+          logo_url
+        )
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching user tools:', error);
+      return [];
+    }
+
+    return (data || []).map((tool: any) => ({
+      id: tool.available_tools.id,
+      domain: tool.available_tools.domain,
+      name: tool.available_tools.name,
+      logo_url: tool.available_tools.logo_url,
+      category: tool.category,
+      detail: tool.detail
+    }));
+  } catch (error) {
+    console.error('Error in getUserTools:', error);
     return [];
   }
-
-  return (data || []).map((tool: any) => ({
-    id: tool.available_tools.id,
-    domain: tool.available_tools.domain,
-    name: tool.available_tools.name,
-    logo_url: tool.available_tools.logo_url,
-    category: tool.category,
-    detail: tool.detail
-  }));
 }
 
 export async function addTool(tool: { domain: string; name: string; logo_url?: string; category?: string; detail?: string }): Promise<Tool | null> {
@@ -114,14 +128,22 @@ export async function addTool(tool: { domain: string; name: string; logo_url?: s
       };
     }
 
-    // Add the tool to user's tracked tools (without user_id for now)
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.error('No authenticated user found');
+      return null;
+    }
+
+    // Add the tool to user's tracked tools
     const { error: userToolError } = await supabase
       .from('user_tools')
       .insert([{
+        user_id: user.id,
         tool_id: toolId,
         category: tool.category,
         detail: tool.detail
-        // Note: user_id is not set since we're not using authentication yet
       }]);
 
     if (userToolError) {
@@ -145,10 +167,19 @@ export async function addTool(tool: { domain: string; name: string; logo_url?: s
 
 export async function removeTool(toolId: string): Promise<boolean> {
   try {
+    // Get current user
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      console.error('No authenticated user found');
+      return false;
+    }
+
     const { error } = await supabase
       .from('user_tools')
       .delete()
-      .eq('tool_id', toolId);
+      .eq('tool_id', toolId)
+      .eq('user_id', user.id);
 
     if (error) {
       console.error('Error removing tool:', error);

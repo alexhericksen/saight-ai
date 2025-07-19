@@ -89,3 +89,19 @@ export async function fetchTotalUsageDuration() {
   }
   return (data || []).reduce((sum, s) => sum + (s.duration || 0), 0);
 }
+
+/**
+ * Formats a date string to "Month Year" format (e.g., "July 2025")
+ */
+export function formatJoinDate(dateString: string): string {
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return 'Unknown';
+  }
+}

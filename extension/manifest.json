@@ -3,8 +3,11 @@
   "name": "Saight-AI Tracker",
   "version": "0.1",
   "description": "Track your exposure to AI tools like ChatGPT, Claude, and Cursor.",
-  "permissions": ["tabs", "storage", "activeTab"],
-  "host_permissions": ["https://saight-ai-live.vercel.app/*"],
+  "permissions": ["tabs", "storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://saight-ai-live.vercel.app/*",
+    "http://localhost:3000/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Pencil } from "lucide-react";
 import { ShareDropdown } from "@/components/ui/share-dropdown";
@@ -37,6 +37,18 @@ export default function ProfileSummary({
   onEdit?: () => void;
   onAvatarChange?: (url: string) => void;
 }) {
+  // Check for localStorage fallback avatar
+  const [localAvatar, setLocalAvatar] = useState<string | null>(null);
+  
+  useEffect(() => {
+    const storedAvatar = localStorage.getItem('saight-custom-avatar');
+    if (storedAvatar) {
+      setLocalAvatar(storedAvatar);
+    }
+  }, []);
+  
+  // Use local avatar as fallback if available
+  const displayAvatarUrl = localAvatar || avatarUrl;
   const [dialogOpen, setDialogOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -44,7 +56,23 @@ export default function ProfileSummary({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      
+      // Check file size (5MB limit)
+      const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+      if (selectedFile.size > maxSize) {
+        setError(`File too large. Please select an image smaller than 5MB. Current size: ${(selectedFile.size / 1024 / 1024).toFixed(1)}MB`);
+        return;
+      }
+      
+      // Check file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(selectedFile.type)) {
+        setError('Please select a valid image file (JPEG, PNG, GIF, or WebP)');
+        return;
+      }
+      
+      setFile(selectedFile);
       setError(null);
     }
   };
@@ -54,22 +82,110 @@ export default function ProfileSummary({
     setUploading(true);
     setError(null);
     try {
-      // Upload to Supabase Storage
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}.${fileExt}`;
-      const { data, error: uploadError } = await (await import("@/lib/supabase")).supabase.storage
-        .from('avatars')
-        .upload(fileName, file, { upsert: true });
-      if (uploadError) throw uploadError;
-      // Get public URL
-      const { data: publicUrlData } = await (await import("@/lib/supabase")).supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
-      onAvatarChange && onAvatarChange(publicUrlData.publicUrl);
+      // Create a canvas to resize image while maintaining quality
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      
+      const resizePromise = new Promise<string>((resolve, reject) => {
+        img.onload = () => {
+          // Set canvas size to a good resolution for profile pictures
+          const maxSize = 400; // Good balance between quality and size
+          let { width, height } = img;
+          
+          if (width > height) {
+            if (width > maxSize) {
+              height = (height * maxSize) / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width = (width * maxSize) / height;
+              height = maxSize;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          // Use high-quality rendering
+          ctx!.imageSmoothingEnabled = true;
+          ctx!.imageSmoothingQuality = 'high';
+          
+          // Draw the image
+          ctx!.drawImage(img, 0, 0, width, height);
+          
+          // Convert to base64 with high quality
+          const base64Data = canvas.toDataURL('image/jpeg', 0.95); // 95% quality
+          resolve(base64Data);
+        };
+        img.onerror = reject;
+      });
+      
+      // Load the file into the image
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+      
+      const base64Data = await resizePromise;
+      
+      // Store the image in user metadata instead of storage bucket
+      try {
+        console.log('🔄 Attempting to save avatar to Supabase...');
+        const { data, error: updateError } = await (await import("@/lib/supabase")).supabase.auth.updateUser({
+          data: { 
+            avatar_url: base64Data,
+            avatar_updated_at: new Date().toISOString()
+          }
+        });
+        
+        if (updateError) {
+          console.error('❌ Supabase update error:', updateError);
+          throw updateError;
+        }
+        
+        console.log('✅ Avatar saved to Supabase user metadata:', data);
+        
+        // Also store in localStorage as backup
+        try {
+          localStorage.setItem('saight-custom-avatar', base64Data);
+          console.log('✅ Also stored avatar in localStorage as backup');
+        } catch (localErr) {
+          console.error('LocalStorage backup failed:', localErr);
+        }
+        
+      } catch (updateErr: any) {
+        console.error('❌ Auth update failed:', updateErr);
+        
+        // Fallback: store in localStorage as backup
+        try {
+          localStorage.setItem('saight-custom-avatar', base64Data);
+          console.log('✅ Stored avatar in localStorage as fallback');
+        } catch (localErr) {
+          console.error('LocalStorage fallback failed:', localErr);
+        }
+        
+        // Don't throw the error - let the user continue with local storage
+        console.log('⚠️ Using localStorage fallback due to Supabase error');
+      }
+      
+      onAvatarChange && onAvatarChange(base64Data);
       setDialogOpen(false);
       setFile(null);
+      console.log('✅ Avatar updated successfully');
+      
+      // Refresh user data to ensure avatar is immediately available
+      try {
+        const { data: { user } } = await (await import("@/lib/supabase")).supabase.auth.getUser();
+        console.log('🔄 Refreshed user data:', user?.user_metadata);
+      } catch (refreshErr) {
+        console.log('⚠️ Could not refresh user data:', refreshErr);
+      }
     } catch (err: any) {
-      setError(err.message || 'Upload failed');
+      console.error('Upload failed:', err);
+      setError(err.message || 'Upload failed. Please try again.');
     } finally {
       setUploading(false);
     }
@@ -80,7 +196,7 @@ export default function ProfileSummary({
       {/* Profile Image with Pro badge */}
       <div className="relative cursor-pointer" onClick={() => setDialogOpen(true)}>
         <img
-          src={avatarUrl}
+          src={displayAvatarUrl}
           className="h-32 w-32 rounded-full border-4 border-white shadow-lg object-cover"
           alt="Profile"
         />
